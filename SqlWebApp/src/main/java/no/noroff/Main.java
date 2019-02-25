@@ -2,6 +2,7 @@ package no.noroff;
 
 import java.time.LocalDate;
 
+
 public class Main {
     public static void main(String[] args) {
         
@@ -17,7 +18,13 @@ public class Main {
 
 
         //System.out.println("Datevalue: " + dateOfBirth[1]);
-        String[] emails = {};
+        String[] emails = new String[10];
+        for (int i = 0; i < firstName.length; i++) {
+            emails[i] = firstName[i] + "." + lastName[i] + "@craigmail.com";
+        }
+
+        int[] phoneNumbers = {12345678, 23456789, 34567890, 45678901, 56789012, 67890123, 78901234, 89012345, 90123456, 12345670};
+
 
         TheSqlConnection conn = new TheSqlConnection();
 
@@ -25,9 +32,14 @@ public class Main {
         conn.initAllTables();
         for (int i = 0; i < firstName.length; i++) {
             //insertPerson(String firstName, String lastName, String homeAddress, LocalDate dateOfBirth)
-            int outputI = conn.insertPerson(firstName[i], lastName[i], homeAddress[i], dateOfBirth[i]);
-
-
+            int outputP = conn.insertPerson(firstName[i], lastName[i], homeAddress[i], dateOfBirth[i]);
+            int outputE = conn.insertEmails(i+1, EmailCategories.PERSONAL, emails[i]);
+            int outputPN = conn.insertPhoneNumber(i+1, PhoneCategories.MOBILE, phoneNumbers[i]);
         }
+
+        conn.insertRelationship(1,2,"Brother","Brother");
+        conn.insertRelationship(4,5,"Sister","Brother");
+        conn.insertRelationship(8,10,"Father","Daughter");
+
     }
 }

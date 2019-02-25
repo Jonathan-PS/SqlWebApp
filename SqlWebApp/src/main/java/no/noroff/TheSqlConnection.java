@@ -36,7 +36,7 @@ public class TheSqlConnection {
         // if it doesn't exist to the following
         // 1. Create the table
         // 2. Fill the table
-        
+
         String createStatement = "CREATE TABLE Persons (\n" +
                 "    pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                 "    FirstName varchar(255) NOT NULL,\n" +
@@ -66,11 +66,10 @@ public class TheSqlConnection {
 
 
         String createStatement = "CREATE TABLE PhoneNumbers (\n" +
-                "        pnID int NOT NULL,\n" +
+                "        pnID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                 "        pID int NOT NULL,\n" +
                 "        PhoneCategory varchar(255),\n" +
                 "        Number int,\n" +
-                "        PRIMARY KEY(pnID),\n" +
                 "        FOREIGN KEY(pID) REFERENCES Persons(pID)\n" +
                 "    )";
 
@@ -90,11 +89,10 @@ public class TheSqlConnection {
 
 
         String createStatement = "CREATE TABLE Emails (\n" +
-                "    eID int NOT NULL,\n" +
+                "    eID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                 "    pID int NOT NULL,\n" +
                 "    EmailCategory varchar(255),\n" +
                 "    Email varchar(255) NOT NULL,\n" +
-                "    PRIMARY KEY(eID),\n" +
                 "    FOREIGN KEY(pID) REFERENCES Persons(pID)\n" +
                 "    )";
 
@@ -115,12 +113,11 @@ public class TheSqlConnection {
 
 
         String createStatement = "CREATE TABLE Relationships (\n" +
-                "    rID int NOT NULL,\n" +
+                "    rID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                 "    p1 int NOT NULL,\n" +
                 "    p2 int NOT NULL,\n" +
                 "    p1p2 varchar(255) NOT NULL,\n" +
                 "    p2p1 varchar(255) NOT NULL,\n" +
-                "    PRIMARY KEY(rID),\n" +
                 "    FOREIGN KEY(p1) REFERENCES Persons(pID),\n" +
                 "    FOREIGN KEY(p2) REFERENCES Persons(pID)\n" +
                 "    )";
@@ -138,6 +135,7 @@ public class TheSqlConnection {
         // Inserts given person into table Person
         // returns pID
         //String sql = "INSERT INTO warehouses(name,capacity) VALUES(?,?)";
+        //TODO:DATEOFBIRTH
         String sql = "INSERT INTO Persons(FirstName, LastName, HomeAddress, DateOfBirth) VALUES(?,?,?,?)";
         try{
             if(conn != null) {
@@ -156,15 +154,16 @@ public class TheSqlConnection {
         return -1;
     }
 
-    public int insertPhoneNumber(PhoneCategories pCategory, int phoneNumber) {
+    public int insertPhoneNumber(int pID, PhoneCategories pCategory, int phoneNumber) {
         // Inserts given phone number into table PhoneNumbers
         // returns pnID
-        String sql = "INSERT INTO PhoneNumbers(pCategory, phoneNumber) VALUES(?,?)";
+        String sql = "INSERT INTO PhoneNumbers(pID, PhoneCategory, Number) VALUES(?,?,?)";
         try{
             if(conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, pCategory.toString().toLowerCase());
-                pstmt.setInt(2, phoneNumber);
+                pstmt.setInt(1, pID);
+                pstmt.setString(2, pCategory.toString().toLowerCase());
+                pstmt.setInt(3, phoneNumber);
                 pstmt.executeUpdate();
                 return 0;
             }
@@ -176,15 +175,16 @@ public class TheSqlConnection {
     }
 
     // INSERT INTO EMAILS
-    public int insertEmails(EmailCategories emailCategorie, String email) {
+    public int insertEmails(int pID, EmailCategories emailCategory, String email) {
         // Inserts given phone number into table PhoneNumbers
         // returns pnID
-        String sql = "INSERT INTO Emails(EmailCategory, Email) VALUES(?,?)";
+        String sql = "INSERT INTO Emails(pID, EmailCategory, Email) VALUES(?,?,?)";
         try{
             if(conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, emailCategorie.toString().toLowerCase());
-                pstmt.setString(2, email);
+                pstmt.setInt(1, pID);
+                pstmt.setString(2, emailCategory.toString().toLowerCase());
+                pstmt.setString(3, email);
                 pstmt.executeUpdate();
                 return 0;
             }
@@ -194,14 +194,17 @@ public class TheSqlConnection {
         }
         return -1;
     }
+
     // INSERT INTO RELATIONSHIPS
-    public int insertRelationship(String rel1, String rel2){
-        String sql = "INSERT INTO Relationship(p1p2, p2p1) VALUES(?,?)";
+    public int insertRelationship(int p1, int p2, String rel1, String rel2){
+        String sql = "INSERT INTO Relationships(p1, p2, p1p2, p2p1) VALUES(?,?,?,?)";
         try{
             if(conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, rel1);
-                pstmt.setString(2, rel2);
+                pstmt.setInt(1,p1);
+                pstmt.setInt(2, p2);
+                pstmt.setString(3, rel1);
+                pstmt.setString(4, rel2);
                 pstmt.executeUpdate();
                 return 0;
             }
