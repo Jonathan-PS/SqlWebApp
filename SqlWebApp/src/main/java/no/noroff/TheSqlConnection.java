@@ -1,25 +1,22 @@
 package no.noroff;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class TheSqlConnection {
+    Connection conn = null;
+    public void connect() {
+        String url = "jdbc:sqlite:./src/main/resources/HappyFamily.sqlite";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                DatabaseMetaData meta = conn.getMetaData();
+                System.out.println("The driver name is " + meta.getDriverName());
+                System.out.println("A new database has been created.");
+            }
 
-    public Connection connect() {
-        Connection conn = null;
-
-        try {
-            // db parameters
-            String url = "jdbc:sqlite::resource:HappyFamily.sqlite";
-            // create a connection to the database
-            conn = DriverManager.getConnection(url);
-            System.out.println("Connection to SQLite has been established.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return conn;
     }
 
     /* TABLE INITIALIZERS */
@@ -55,19 +52,68 @@ public class TheSqlConnection {
     public int insertPerson(String firstName, String lastName, String homeAdreses, LocalDate dateOfBirth) {
         // Inserts given person into table Person
         // returns pID
+        //String sql = "INSERT INTO warehouses(name,capacity) VALUES(?,?)";
+        String sql = "INSERT INTO Persons(FirstName, LastName, HomeAdress, DateOfBirth) VALUES(?,?,?,?)";
+        try{
+            if(conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, firstName);
+                pstmt.setString(2, lastName);
+                pstmt.setString(3, homeAdreses);
+                pstmt.setDate(4, java.sql.Date.valueOf(dateOfBirth));
+                pstmt.executeUpdate();
+                return 0;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return 1;
+        }
         return -1;
     }
 
-    public int insertPhoneNumber(int pID, PhoneCategories pCategory, int phoneNumber) {
+    public int insertPhoneNumber(PhoneCategories pCategory, int phoneNumber) {
         // Inserts given phone number into table PhoneNumbers
         // returns pnID
+        String sql = "INSERT INTO PhoneNumbers(pCategory, phoneNumber) VALUES(?,?)";
+        try{
+            if(conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, pCategory.toString().toLowerCase());
+                pstmt.setInt(2, phoneNumber);
+                pstmt.executeUpdate();
+                return 0;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return 1;
+        }
         return -1;
     }
 
     // INSERT INTO EMAILS
+    public int insertEmails(EmailCategories emailCategorie, String email) {
+        // Inserts given phone number into table PhoneNumbers
+        // returns pnID
+        String sql = "INSERT INTO Emails(EmailCategory, Email) VALUES(?,?)";
+        try{
+            if(conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, emailCategorie.toString().toLowerCase());
+                pstmt.setString(2, email);
+                pstmt.executeUpdate();
+                return 0;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return 1;
+        }
+        return -1;
+    }
 
     // INSERT INTO RELATIONSHIPS
-
+    public int insertRelationship(){
+        return -1;
+    }
 
 
     public void getPIDByName(String firstName, String lastName) {
