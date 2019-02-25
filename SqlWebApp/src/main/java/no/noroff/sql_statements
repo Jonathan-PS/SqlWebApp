@@ -1,5 +1,5 @@
 CREATE TABLE Persons (
-    pID int NOT NULL,
+    pID int NOT NULL AUTO_INCREMENT,
     FirstName varchar(255) NOT NULL,
     LastName varchar(255) NOT NULL,
     HomeAddress varchar(255),
@@ -7,18 +7,21 @@ CREATE TABLE Persons (
     PRIMARY KEY(pID)
     );
 
- CREATE TABLE PhoneNumbers (
-    pnID int NOT NULL,
-    pID int NOT NULL,
-    PhoneCategory varchar(255),
-    Number int,
-    PRIMARY KEY(pnID),
-    FOREIGN KEY(pID) REFERENCES Persons(pID)
-    );
+
+CREATE TABLE PhoneNumbers (
+        pnID int NOT NULL AUTO_INCREMENT,
+        pID int NOT NULL,
+        PhoneCategory varchar(255),
+        Number int,
+        PRIMARY KEY(pnID),
+        FOREIGN KEY(pID) REFERENCES Persons(pID)
+    )
 
 
-  CREATE TABLE Emails (
-    eID int NOT NULL,
+
+
+CREATE TABLE Emails (
+    eID int NOT NULL AUTO_INCREMENT,
     pID int NOT NULL,
     EmailCategory varchar(255),
     Email varchar(255) NOT NULL,
@@ -26,8 +29,8 @@ CREATE TABLE Persons (
     FOREIGN KEY(pID) REFERENCES Persons(pID)
     );
 
-   CREATE TABLE Relationship (
-    rID int NOT NULL,
+CREATE TABLE Relationship (
+    rID int NOT NULL AUTO_INCREMENT,
     p1 int NOT NULL,
     p2 int NOT NULL,
     p1p2 varchar(255) NOT NULL,
@@ -38,23 +41,23 @@ CREATE TABLE Persons (
     );
 
 
-   String insertStatement = "INSERT INTO Persons (pID, FirstName, LastName, HomeAddress, DateOfBirth)
+String insertStatement = "INSERT INTO Persons (pID, FirstName, LastName, HomeAddress, DateOfBirth)
    VALUES(?,?,?,?,?) ";
 
-   PreparedStatement pstmt = con.prepareStatement(insertStatement)
+PreparedStatement pstmt = con.prepareStatement(insertStatement)
    pstmt(1, 0)
    pstmt(2, Jonathan)
    pstmt(3, Stang)
    pstmt(4, Jon P Er...)
    pstmt(5, 27.05.1993)
 
-   INSERT INTO PhoneNumbers (pnID, pID, PhoneCategory, Number)
+INSERT INTO PhoneNumbers (pnID, pID, PhoneCategory, Number)
    VALUES (?,?,?,?);
 
-   INSERT INTO Emails (eID, pID, EmailCategory, Emails)
+INSERT INTO Emails (eID, pID, EmailCategory, Emails)
    VALUES (?,?,?,?);
 
-   INSERT INTO Relationships (rID, p1, p2, p1p2, p2p1)
+INSERT INTO Relationships (rID, p1, p2, p1p2, p2p1)
    VALUES(?,?,?,?,?);
 
 
