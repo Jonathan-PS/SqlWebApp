@@ -109,9 +109,21 @@ public class TheSqlConnection {
         }
         return -1;
     }
-
     // INSERT INTO RELATIONSHIPS
-    public int insertRelationship(){
+    public int insertRelationship(String rel1, String rel2){
+        String sql = "INSERT INTO Relationship(p1p2, p2p1) VALUES(?,?)";
+        try{
+            if(conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, rel1);
+                pstmt.setString(2, rel2);
+                pstmt.executeUpdate();
+                return 0;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return 1;
+        }
         return -1;
     }
 
