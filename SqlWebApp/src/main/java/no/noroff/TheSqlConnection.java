@@ -36,14 +36,13 @@ public class TheSqlConnection {
         // if it doesn't exist to the following
         // 1. Create the table
         // 2. Fill the table
-
+        
         String createStatement = "CREATE TABLE Persons (\n" +
-                "    pID int NOT NULL,\n" +
+                "    pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                 "    FirstName varchar(255) NOT NULL,\n" +
                 "    LastName varchar(255) NOT NULL,\n" +
                 "    HomeAddress varchar(255),\n" +
-                "    DateOfBirth Date,\n" +
-                "    PRIMARY KEY(pID)\n" +
+                "    DateOfBirth Date\n" +
                 "    );\n" +
                 "\n";
 
@@ -53,7 +52,7 @@ public class TheSqlConnection {
             // Insert all initial elements
 
         } catch (SQLException E) {
-            System.out.println("Persons table creation statement failed. Maybe it already exists");
+            System.out.println("Persons table creation statement failed. Maybe it already exists.");
         }
 
     }
@@ -63,6 +62,7 @@ public class TheSqlConnection {
         // if it doesn't exist to the following
         // 1. Create the table
         // 2. Fill the table
+        //TODO: constraints on number
 
 
         String createStatement = "CREATE TABLE PhoneNumbers (\n" +
@@ -78,7 +78,7 @@ public class TheSqlConnection {
             pstmt.execute();
             System.out.println("Table PhoneNumbers created");
         } catch (SQLException E) {
-            System.out.println("PhoneNumbers table creation statement failed");
+            System.out.println("PhoneNumbers table creation statement failed. Maybe it already exists");
         }
     }
 
@@ -102,7 +102,7 @@ public class TheSqlConnection {
             pstmt.execute();
             System.out.println("Table Emails created");
         } catch (SQLException E) {
-            System.out.println("Emails table creation statement failed");
+            System.out.println("Emails table creation statement failed. Maybe it already exists.");
         }
 
     }
@@ -134,17 +134,17 @@ public class TheSqlConnection {
     }
 
     /* INSERT METHODS */
-    public int insertPerson(String firstName, String lastName, String homeAdreses, LocalDate dateOfBirth) {
+    public int insertPerson(String firstName, String lastName, String homeAddress, LocalDate dateOfBirth) {
         // Inserts given person into table Person
         // returns pID
         //String sql = "INSERT INTO warehouses(name,capacity) VALUES(?,?)";
-        String sql = "INSERT INTO Persons(FirstName, LastName, HomeAdress, DateOfBirth) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO Persons(FirstName, LastName, HomeAddress, DateOfBirth) VALUES(?,?,?,?)";
         try{
             if(conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setString(1, firstName);
                 pstmt.setString(2, lastName);
-                pstmt.setString(3, homeAdreses);
+                pstmt.setString(3, homeAddress);
                 pstmt.setDate(4, java.sql.Date.valueOf(dateOfBirth));
                 pstmt.executeUpdate();
                 return 0;
