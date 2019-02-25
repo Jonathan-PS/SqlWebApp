@@ -21,7 +21,7 @@ CREATE TABLE PhoneNumbers (
 
 
 CREATE TABLE Emails (
-    eID int NOT NULL AUTO_INCREMENT,
+    eID int NOT NULL ,
     pID int NOT NULL,
     EmailCategory varchar(255),
     Email varchar(255) NOT NULL,
@@ -29,8 +29,8 @@ CREATE TABLE Emails (
     FOREIGN KEY(pID) REFERENCES Persons(pID)
     );
 
-CREATE TABLE Relationship (
-    rID int NOT NULL AUTO_INCREMENT,
+CREATE TABLE Relationships (
+    rID int NOT NULL ,
     p1 int NOT NULL,
     p2 int NOT NULL,
     p1p2 varchar(255) NOT NULL,

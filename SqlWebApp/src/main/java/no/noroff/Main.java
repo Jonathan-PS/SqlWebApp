@@ -18,7 +18,6 @@ public class Main {
         TheSqlConnection conn = new TheSqlConnection();
 
         conn.connect();
-        conn.initPersons();
-        conn.initPhoneNumbers();
+        conn.initAllTables();
     }
 }
