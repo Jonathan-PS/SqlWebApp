@@ -88,6 +88,23 @@ public class TheSqlConnection {
         // 1. Create the table
         // 2. Fill the table
 
+
+        String createStatement = "CREATE TABLE Emails (\n" +
+                "    eID int NOT NULL,\n" +
+                "    pID int NOT NULL,\n" +
+                "    EmailCategory varchar(255),\n" +
+                "    Email varchar(255) NOT NULL,\n" +
+                "    PRIMARY KEY(eID),\n" +
+                "    FOREIGN KEY(pID) REFERENCES Persons(pID)\n" +
+                "    )";
+
+        try ( PreparedStatement pstmt = conn.prepareStatement(createStatement)){
+            pstmt.execute();
+            System.out.println("Table Emails created");
+        } catch (SQLException E) {
+            System.out.println("Emails table creation statement failed");
+        }
+
     }
 
     public void initRelationships(){
@@ -95,6 +112,25 @@ public class TheSqlConnection {
         // if it doesn't exist to the following
         // 1. Create the table
         // 2. Fill the table
+
+
+        String createStatement = "CREATE TABLE Relationships (\n" +
+                "    rID int NOT NULL,\n" +
+                "    p1 int NOT NULL,\n" +
+                "    p2 int NOT NULL,\n" +
+                "    p1p2 varchar(255) NOT NULL,\n" +
+                "    p2p1 varchar(255) NOT NULL,\n" +
+                "    PRIMARY KEY(rID),\n" +
+                "    FOREIGN KEY(p1) REFERENCES Persons(pID),\n" +
+                "    FOREIGN KEY(p2) REFERENCES Persons(pID)\n" +
+                "    )";
+
+        try ( PreparedStatement pstmt = conn.prepareStatement(createStatement)){
+            pstmt.execute();
+            System.out.println("Table Relationship created");
+        } catch (SQLException E) {
+            System.out.println("Relationships table creation statement failed");
+        }
     }
 
     /* INSERT METHODS */
