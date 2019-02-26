@@ -35,4 +35,6 @@ public class Person {
     public String getName() {
         return firstName + " " + lastName;
     }
+    public Date getBirthDate() {return dateOfBirth;}
+    public String getHomeAddress() {return homeAddress;}
 }
