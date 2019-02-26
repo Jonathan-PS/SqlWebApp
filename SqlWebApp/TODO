@@ -13,7 +13,7 @@ CRUD to db
 Temporary Java Objects
 - Store info in POJO --> class Person{}
 - So create 4 classes
-(- When SELECTing more than one sql element, store in ArrayList)
+(When SELECTing more than one sql element, store in ArrayList)
 
 
 REST
