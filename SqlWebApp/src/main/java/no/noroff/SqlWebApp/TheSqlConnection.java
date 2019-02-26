@@ -23,7 +23,7 @@ public class TheSqlConnection {
             LocalDate.of(2010,07,21), LocalDate.of(1991,11,14),
             LocalDate.of(2001,03,30), LocalDate.of(1920,10,2),
             LocalDate.of(1999,04,12), LocalDate.of(1954,06,13)};
-    int[] phoneNumbers = {12345678, 23456789, 34567890, 45678901, 56789012, 67890123, 78901234, 89012345, 90123456, 12345670};
+    String[] phoneNumbers = {"12345678", "23456789", "34567890", "45678901", "56789012", "67890123", "78901234", "89012345", "90123456", "12345670"};
     String[] emails = new String[10];
     {
         for (int i = 0; i < firstName.length; i++) {
@@ -111,7 +111,7 @@ public class TheSqlConnection {
                 "        pnID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                 "        pID int NOT NULL,\n" +
                 "        PhoneCategory varchar(255),\n" +
-                "        Number int,\n" +
+                "        Number varchar(8),\n" +
                 "        FOREIGN KEY(pID) REFERENCES Persons(pID)\n" +
                 "    )";
 
@@ -193,7 +193,7 @@ public class TheSqlConnection {
             insertRelationship(8,10,"Father","Daughter");
             insertRelationship(10, 8, "Daughter", "Father");
             insertRelationship(10, 9, "Mother", "Son" );
-            insertRelationship(9, 19, "Son", "Mother");
+            insertRelationship(9, 10, "Son", "Mother");
         } catch (SQLException E) {
             System.out.println("Relationships table creation statement failed");
         }
@@ -223,7 +223,7 @@ public class TheSqlConnection {
         return -1;
     }
 
-    public int insertPhoneNumber(int pID, PhoneCategories pCategory, int phoneNumber) {
+    public int insertPhoneNumber(int pID, PhoneCategories pCategory, String phoneNumber) {
         // Inserts given phone number into table PhoneNumbers
         // returns pnID
         String sql = "INSERT INTO PhoneNumbers(pID, PhoneCategory, Number) VALUES(?,?,?)";
@@ -232,7 +232,7 @@ public class TheSqlConnection {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, pID);
                 pstmt.setString(2, pCategory.toString().toLowerCase());
-                pstmt.setInt(3, phoneNumber);
+                pstmt.setString(3, phoneNumber);
                 pstmt.executeUpdate();
                 return 0;
             }
@@ -352,7 +352,7 @@ public class TheSqlConnection {
                 phoneNumber = new PhoneNumber(rs.getInt("pID"),
                         rs.getInt("pnID"),
                         rs.getString("PhoneCategory"),
-                        rs.getInt("Number"));
+                        rs.getString("Number"));
             }
         } catch (SQLException exc) {
             System.out.println("Phone number (pID=" + pID + ") SELECT not working.");

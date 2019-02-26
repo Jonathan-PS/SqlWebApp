@@ -4,17 +4,17 @@ public class PhoneNumber {
     private final int pID;
     private final int pnID;
     private String phoneCategory;
-    private int phoneNumber;
+    private String phoneNumber;
 
     //Constructor
-    public PhoneNumber (int pID, int pnID, String phoneCategory, int phoneNumber) {
+    public PhoneNumber (int pID, int pnID, String phoneCategory, String phoneNumber) {
         this.pID = pID;
         this.pnID= pnID;
         this.phoneCategory = phoneCategory;
         this.phoneNumber = phoneNumber;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return (phoneNumber);
     }
 
