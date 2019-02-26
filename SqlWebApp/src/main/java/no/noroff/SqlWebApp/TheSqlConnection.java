@@ -56,7 +56,7 @@ public class TheSqlConnection {
                 "    );\n" +
                 "\n";
 
-        try ( PreparedStatement pstmt = conn.prepareStatement(createStatement)){
+        try (PreparedStatement pstmt = conn.prepareStatement(createStatement)) {
             pstmt.execute();
             System.out.println("Table Persons created");
 
@@ -68,7 +68,7 @@ public class TheSqlConnection {
 
     }
 
-    public void initPhoneNumbers(){
+    public void initPhoneNumbers() {
         // Checks whether table exists
         // if it doesn't exist to the following
         // 1. Create the table
@@ -84,7 +84,7 @@ public class TheSqlConnection {
                 "        FOREIGN KEY(pID) REFERENCES Persons(pID)\n" +
                 "    )";
 
-        try ( PreparedStatement pstmt = conn.prepareStatement(createStatement)){
+        try (PreparedStatement pstmt = conn.prepareStatement(createStatement)) {
             pstmt.execute();
             System.out.println("Table PhoneNumbers created");
         } catch (SQLException E) {
@@ -92,7 +92,7 @@ public class TheSqlConnection {
         }
     }
 
-    public void initEmails(){
+    public void initEmails() {
         // Checks whether table exists
         // if it doesn't exist to the following
         // 1. Create the table
@@ -107,7 +107,7 @@ public class TheSqlConnection {
                 "    FOREIGN KEY(pID) REFERENCES Persons(pID)\n" +
                 "    )";
 
-        try ( PreparedStatement pstmt = conn.prepareStatement(createStatement)){
+        try (PreparedStatement pstmt = conn.prepareStatement(createStatement)) {
             pstmt.execute();
             System.out.println("Table Emails created");
         } catch (SQLException E) {
@@ -116,7 +116,7 @@ public class TheSqlConnection {
 
     }
 
-    public void initRelationships(){
+    public void initRelationships() {
         // Checks whether table  exists
         // if it doesn't exist to the following
         // 1. Create the table
@@ -133,7 +133,7 @@ public class TheSqlConnection {
                 "    FOREIGN KEY(p2) REFERENCES Persons(pID)\n" +
                 "    )";
 
-        try ( PreparedStatement pstmt = conn.prepareStatement(createStatement)){
+        try (PreparedStatement pstmt = conn.prepareStatement(createStatement)) {
             pstmt.execute();
             System.out.println("Table Relationship created");
         } catch (SQLException E) {
@@ -148,8 +148,8 @@ public class TheSqlConnection {
         //String sql = "INSERT INTO warehouses(name,capacity) VALUES(?,?)";
         //TODO:DATEOFBIRTH
         String sql = "INSERT INTO Persons(FirstName, LastName, HomeAddress, DateOfBirth) VALUES(?,?,?,?)";
-        try{
-            if(conn != null) {
+        try {
+            if (conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setString(1, firstName);
                 pstmt.setString(2, lastName);
@@ -169,8 +169,8 @@ public class TheSqlConnection {
         // Inserts given phone number into table PhoneNumbers
         // returns pnID
         String sql = "INSERT INTO PhoneNumbers(pID, PhoneCategory, Number) VALUES(?,?,?)";
-        try{
-            if(conn != null) {
+        try {
+            if (conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, pID);
                 pstmt.setString(2, pCategory.toString().toLowerCase());
@@ -190,8 +190,8 @@ public class TheSqlConnection {
         // Inserts given phone number into table PhoneNumbers
         // returns pnID
         String sql = "INSERT INTO Emails(pID, EmailCategory, Email) VALUES(?,?,?)";
-        try{
-            if(conn != null) {
+        try {
+            if (conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, pID);
                 pstmt.setString(2, emailCategory.toString().toLowerCase());
@@ -207,12 +207,12 @@ public class TheSqlConnection {
     }
 
     // INSERT INTO RELATIONSHIPS
-    public int insertRelationship(int p1, int p2, String rel1, String rel2){
+    public int insertRelationship(int p1, int p2, String rel1, String rel2) {
         String sql = "INSERT INTO Relationships(p1, p2, p1p2, p2p1) VALUES(?,?,?,?)";
-        try{
-            if(conn != null) {
+        try {
+            if (conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1,p1);
+                pstmt.setInt(1, p1);
                 pstmt.setInt(2, p2);
                 pstmt.setString(3, rel1);
                 pstmt.setString(4, rel2);
@@ -231,22 +231,22 @@ public class TheSqlConnection {
         // prints out ids of all persons with given name
     }
 
-    public Person selectPerson(int pID){
+    public Person selectPerson(int pID) {
         String sql = "SELECT * FROM Persons WHERE pID = (?)";
 
         Person person = null;
 
-        try{
-            if(conn != null) {
+        try {
+            if (conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, pID);
                 ResultSet rs = pstmt.executeQuery();
 
                 person = new Person(rs.getInt("pID"),
-                            rs.getString("FirstName"),
-                            rs.getString("LastName"),
-                            rs.getString("HomeAddress"),
-                            rs.getDate("DateOfBirth"));
+                        rs.getString("FirstName"),
+                        rs.getString("LastName"),
+                        rs.getString("HomeAddress"),
+                        rs.getDate("DateOfBirth"));
             }
         } catch (SQLException e) {
             System.out.println("Person (pID=" + pID + ") SELECT not working.");
@@ -256,5 +256,27 @@ public class TheSqlConnection {
         return person;
     }
 
+    /*public void updatePerson(int pId, String attributeName, String value){
+        String updateSql = "UPDATE Persons SET ? = ? WHERE pID = ?";
+        PreparedStatement uStmt = null;
+        try {
+            uStmt = conn.prepareStatement(updateSql);
+            uStmt.setString(1, attributeName);
+            uStmt.setString(2, value);
+            uStmt.setInt(3, pId);
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+
+        boolean autoCommit = conn.getAutoCommit();
+        try {
+            conn.setAutoCommit(false);
+            uStmt.executeUpdate();
+        } catch (SQLException exc) {
+            conn.rollback();
+        } finally {
+            conn.setAutoCommit((autoCommit));
+        }
+    }*/
 
 }
