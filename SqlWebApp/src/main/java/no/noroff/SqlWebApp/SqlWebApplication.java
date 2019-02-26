@@ -5,6 +5,8 @@ import no.noroff.SqlWebApp.models.PhoneNumber;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.ArrayList;
+
 @SpringBootApplication
 public class SqlWebApplication {
 	public static TheSqlConnection conn;
@@ -27,6 +29,16 @@ public class SqlWebApplication {
 
 		//SELECT PHONENUMBER TESTING
 		PhoneNumber phoneNumber1 = conn.selectPhoneNumber(1);
-		System.out.println(phoneNumber1.getPhoneNumber());
+		//System.out.println(phoneNumber1.getPhoneNumber());
+
+		ArrayList<Person> personList = new ArrayList<Person>();
+		personList = conn.selectPersonByName("FirstName","Lilly");
+
+		ArrayList<PhoneNumber> phoneBook = new ArrayList<PhoneNumber>();
+		phoneBook = conn.selectPersonByNumber("12345678");
+		System.out.println(phoneBook.get(0).getPhoneNumber());
+
+		Person p = conn.selectPerson(phoneBook.get(0).getpID());
+		System.out.println(p.getName() + " " + phoneBook.get(0).getPhoneNumber());
 	}
 }

@@ -7,6 +7,8 @@ import no.noroff.SqlWebApp.models.Person;
 import no.noroff.SqlWebApp.models.PhoneNumber;
 import no.noroff.SqlWebApp.models.Relationship;
 
+import java.util.ArrayList;
+
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -306,6 +308,35 @@ public class TheSqlConnection {
         return person;
     }
 
+    //Search by first or last name
+    public ArrayList<Person> selectPersonByName(String attribute, String searchName) {
+        ArrayList<Person> personList = new ArrayList<Person>();
+
+        String sql = String.format("SELECT * FROM Persons WHERE %s = ? ", attribute);
+        Person person = null;
+
+        try {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, searchName);
+                ResultSet rs = pstmt.executeQuery();
+
+                while(rs.next()) {
+                    person = new Person(rs.getInt("pID"),
+                            rs.getString("FirstName"),
+                            rs.getString("LastName"),
+                            rs.getString("HomeAddress"),
+                            rs.getDate("DateOfBirth"));
+                    personList.add(person);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Person (Name=" + searchName + ") NOT Found.");
+            System.out.println(e.getMessage());
+        }
+        return personList;
+    }
+
     public Email selectEmail (int pID) {
         String sql = "SELECT * FROM Emails WHERE pID = (?)";
         Email email = null;
@@ -353,6 +384,34 @@ public class TheSqlConnection {
         return phoneNumber;
     }
 
+    //Search by first or last name
+    public ArrayList<PhoneNumber> selectPersonByNumber(String searchNumber) {
+        ArrayList<PhoneNumber> phoneBook = new ArrayList<PhoneNumber>();
+
+        String sql = "SELECT * FROM PhoneNumbers WHERE Number = ? ";
+        PhoneNumber phoneNumber = null;
+
+        try {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, searchNumber);
+                ResultSet rs = pstmt.executeQuery();
+
+                while(rs.next()) {
+                    phoneNumber = new PhoneNumber(rs.getInt("pnID"),
+                            rs.getInt("pID"),
+                            rs.getString("PhoneCategory"),
+                            rs.getString("Number"));
+                    phoneBook.add(phoneNumber);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Person (Number=" + searchNumber + ") NOT Found.");
+            System.out.println(e.getMessage());
+        }
+        return phoneBook;
+    }
+
     public Relationship selectRelationship (int rID) {
         String sql = "SELECT * FROM Relationships WHERE rID = (?)";
         Relationship relationship = null;
@@ -377,6 +436,9 @@ public class TheSqlConnection {
         return relationship;
 
     }
+
+
+
 
   public void updateTable(int pId, String tableName, String attributeName, String value) {
         String updateSql = String.format("UPDATE %s SET %s =? WHERE pID=?",tableName,attributeName);
