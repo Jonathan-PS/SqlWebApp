@@ -23,7 +23,7 @@ public class TheSqlConnection {
             LocalDate.of(2010,07,21), LocalDate.of(1991,11,14),
             LocalDate.of(2001,03,30), LocalDate.of(1920,10,2),
             LocalDate.of(1999,04,12), LocalDate.of(1954,06,13)};
-    int[] phoneNumbers = {12345678, 23456789, 34567890, 45678901, 56789012, 67890123, 78901234, 89012345, 90123456, 12345670};
+    String[] phoneNumbers = {"12345678", "23456789", "34567890", "45678901", "56789012", "67890123", "78901234", "89012345", "90123456", "12345670"};
     String[] emails = new String[10];
     {
         for (int i = 0; i < firstName.length; i++) {
@@ -111,7 +111,7 @@ public class TheSqlConnection {
                 "        pnID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                 "        pID int NOT NULL,\n" +
                 "        PhoneCategory varchar(255),\n" +
-                "        Number int,\n" +
+                "        Number varchar(8),\n" +
                 "        FOREIGN KEY(pID) REFERENCES Persons(pID)\n" +
                 "    )";
 
@@ -219,7 +219,7 @@ public class TheSqlConnection {
         return -1;
     }
 
-    public int insertPhoneNumber(int pID, PhoneCategories pCategory, int phoneNumber) {
+    public int insertPhoneNumber(int pID, PhoneCategories pCategory, String phoneNumber) {
         // Inserts given phone number into table PhoneNumbers
         // returns pnID
         String sql = "INSERT INTO PhoneNumbers(pID, PhoneCategory, Number) VALUES(?,?,?)";
@@ -228,7 +228,7 @@ public class TheSqlConnection {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, pID);
                 pstmt.setString(2, pCategory.toString().toLowerCase());
-                pstmt.setInt(3, phoneNumber);
+                pstmt.setString(3, phoneNumber);
                 pstmt.executeUpdate();
                 return 0;
             }
@@ -306,7 +306,6 @@ public class TheSqlConnection {
             System.out.println("Person (pID=" + pID + ") SELECT not working.");
             System.out.println(e.getMessage());
         }
-
         return person;
     }
 
@@ -348,7 +347,7 @@ public class TheSqlConnection {
                 phoneNumber = new PhoneNumber(rs.getInt("pID"),
                         rs.getInt("pnID"),
                         rs.getString("PhoneCategory"),
-                        rs.getInt("Number"));
+                        rs.getString("Number"));
             }
         } catch (SQLException exc) {
             System.out.println("Phone number (pID=" + pnID + ") SELECT not working.");
@@ -400,12 +399,54 @@ public class TheSqlConnection {
         } catch (SQLException exc) {
             conn.rollback();
         } finally {
-            conn.setAutoCommit((autoCommit));
+            conn.setAutoCommit(autoCommit);
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
 
+    public void delete(int id) {
+        //String sql = "DELETE " +
+         //       "FROM Persons p JOIN PhoneNumbers pn ON p.pID = pn.pID" +
+          //      "JOIN Emails e ON p.pID = e.pID WHERE pID = ?";
+        String sql1 = "DELETE FROM Emails WHERE pID = ?";
+        String sql2 = "DELETE FROM PhoneNumbers WHERE pID = ?";
+        String sql3 = "DELETE FROM Relationships WHERE p1 = ? OR p2 = ?";
+        String sql4 = "DELETE FROM Persons WHERE pID = ?";
+        try {
+             PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+            // set the corresponding param
+            pstmt1.setInt(1, id);
 
+            PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+            // set the corresponding param
+            pstmt2.setInt(1, id);
+
+            PreparedStatement pstmt3 = conn.prepareStatement(sql3);
+            // set the corresponding param
+            pstmt3.setInt(1, id);
+            pstmt3.setInt(2, id);
+
+            PreparedStatement pstmt4 = conn.prepareStatement(sql4);
+            // set the corresponding param
+            pstmt4.setInt(1, id);
+
+            boolean autoCommit = conn.getAutoCommit();
+            try{
+                conn.setAutoCommit(false);
+                pstmt1.executeUpdate();
+                pstmt2.executeUpdate();
+                pstmt3.executeUpdate();
+                pstmt4.executeUpdate();
+            }catch(SQLException exc){
+                conn.rollback();
+            } finally{
+                conn.setAutoCommit(autoCommit);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

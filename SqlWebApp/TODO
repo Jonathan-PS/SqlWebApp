@@ -5,7 +5,7 @@ CREATE AND INIT DB
 - Move the filling of the tables
 
 CRUD to db
-- Done with INSERT (Create)
+- Done with INSERT (Create) + add rollback when applied
 - need SELECT (read)
 - Need UPDATE with rollback on fail
 - Need DELETE
