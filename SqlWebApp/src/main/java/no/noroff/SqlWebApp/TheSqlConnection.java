@@ -1,4 +1,4 @@
-package no.noroff;
+package no.noroff.SqlWebApp;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -49,6 +49,7 @@ public class TheSqlConnection {
         try ( PreparedStatement pstmt = conn.prepareStatement(createStatement)){
             pstmt.execute();
             System.out.println("Table Persons created");
+
             // Insert all initial elements
 
         } catch (SQLException E) {
@@ -143,7 +144,7 @@ public class TheSqlConnection {
                 pstmt.setString(1, firstName);
                 pstmt.setString(2, lastName);
                 pstmt.setString(3, homeAddress);
-                pstmt.setDate(4, java.sql.Date.valueOf(dateOfBirth));
+                pstmt.setDate(4, Date.valueOf(dateOfBirth));
                 pstmt.executeUpdate();
                 return 0;
             }

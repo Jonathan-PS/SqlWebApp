@@ -1,4 +1,4 @@
-package no.noroff;
+package no.noroff.SqlWebApp;
 
 import java.time.LocalDate;
 

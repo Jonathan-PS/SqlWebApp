@@ -1,0 +1,23 @@
+26.02.2019
+
+CREATE AND INIT DB
+- Fix LocalDate to Date to db
+- Move the filling of the tables
+
+CRUD to db
+- Done with INSERT (Create)
+- need SELECT (read)
+- Need UPDATE with rollback on fail
+- Need DELETE
+
+Temporary Java Objects
+- Store info in POJO --> class Person{}
+- So create 4 classes
+(- When SELECTing more than one sql element, store in ArrayList)
+
+
+REST
+- Take any POJO and send to browser
+
+
+
