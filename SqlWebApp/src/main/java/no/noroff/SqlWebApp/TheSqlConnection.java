@@ -6,6 +6,26 @@ import java.time.LocalDate;
 public class TheSqlConnection {
     Connection conn = null;
 
+    // Data for constructing our initial sqlite database
+    String[] firstName = {"Leon", "Eliot", "Malak", "Katya", "Tobias", "Natalya", "Kelise", "Cieran", "Duke", "Lilly"};
+    String[] lastName = {"Greig", "Villarreal", "Payne", "Whitfield", "Oliver", "Pace", "Sheldon", "Young", "Gray", "Hawkins"};
+    String[] homeAddress = {"27 Shelby Ave", "8705 Kevin Ln", "24 South St", "5435 Louise Ave", "5414 County 150 Rd",
+            "407 Carolina St", "26 9th Ave", "405 Sunrise Ave", "6 Buttonball Dr", "911 Clare Ave"};
+    LocalDate[] dateOfBirth = { LocalDate.of(1980,01,1), LocalDate.of(1960,03,6),
+            LocalDate.of(1980,06,7), LocalDate.of(2000,12,3),
+            LocalDate.of(2010,07,21), LocalDate.of(1991,11,14),
+            LocalDate.of(2001,03,30), LocalDate.of(1920,10,2),
+            LocalDate.of(1999,04,12), LocalDate.of(1954,06,13)};
+    int[] phoneNumbers = {12345678, 23456789, 34567890, 45678901, 56789012, 67890123, 78901234, 89012345, 90123456, 12345670};
+    String[] emails = new String[10];
+    {
+        for (int i = 0; i < firstName.length; i++) {
+            emails[i] = firstName[i] + "." + lastName[i] + "@craigmail.com";
+        }
+    }
+
+
+
     public void connect() {
         String url = "jdbc:sqlite:src/main/resources/HappyFamily.sqlite";
         //String url = "jdbc:sqlite::resource:HappyFamily.sqlite";
@@ -56,19 +76,23 @@ public class TheSqlConnection {
                 "    );\n" +
                 "\n";
 
-        try ( PreparedStatement pstmt = conn.prepareStatement(createStatement)){
+
+        try (PreparedStatement pstmt = conn.prepareStatement(createStatement)) {
             pstmt.execute();
             System.out.println("Table Persons created");
 
-            // Insert all initial elements
+            // FILL TABLE
+            for (int i = 0; i < firstName.length; i++) {
+                insertPerson(firstName[i], lastName[i], homeAddress[i], dateOfBirth[i]);
+            }
 
-        } catch (SQLException E) {
+        } catch (SQLException e) {
             System.out.println("Persons table creation statement failed. Maybe it already exists.");
         }
 
     }
 
-    public void initPhoneNumbers(){
+    public void initPhoneNumbers() {
         // Checks whether table exists
         // if it doesn't exist to the following
         // 1. Create the table
@@ -85,14 +109,22 @@ public class TheSqlConnection {
                 "    )";
 
         try ( PreparedStatement pstmt = conn.prepareStatement(createStatement)){
+            // CREATE TABLE
             pstmt.execute();
             System.out.println("Table PhoneNumbers created");
+
+            // FILL TABLE
+            for (int i = 0; i < firstName.length; i++) {
+                insertPhoneNumber(i+1, PhoneCategories.MOBILE, phoneNumbers[i]);
+            }
+
+
         } catch (SQLException E) {
             System.out.println("PhoneNumbers table creation statement failed. Maybe it already exists");
         }
     }
 
-    public void initEmails(){
+    public void initEmails() {
         // Checks whether table exists
         // if it doesn't exist to the following
         // 1. Create the table
@@ -108,15 +140,22 @@ public class TheSqlConnection {
                 "    )";
 
         try ( PreparedStatement pstmt = conn.prepareStatement(createStatement)){
+            // CREATE TABLE
             pstmt.execute();
             System.out.println("Table Emails created");
+
+            // FILL TABLE
+            for (int i = 0; i < firstName.length; i++) {
+                insertEmails(i+1, EmailCategories.PERSONAL, emails[i]);
+            }
+
         } catch (SQLException E) {
             System.out.println("Emails table creation statement failed. Maybe it already exists.");
         }
 
     }
 
-    public void initRelationships(){
+    public void initRelationships() {
         // Checks whether table  exists
         // if it doesn't exist to the following
         // 1. Create the table
@@ -133,9 +172,17 @@ public class TheSqlConnection {
                 "    FOREIGN KEY(p2) REFERENCES Persons(pID)\n" +
                 "    )";
 
+      
         try ( PreparedStatement pstmt = conn.prepareStatement(createStatement)){
+            // CREATE TABLE
             pstmt.execute();
             System.out.println("Table Relationship created");
+
+            // FILL TABLE
+            insertRelationship(1,2,"Brother","Brother");
+            insertRelationship(4,5,"Sister","Brother");
+            insertRelationship(8,10,"Father","Daughter");
+            insertRelationship(10, 9, "Mother", "Son" );
         } catch (SQLException E) {
             System.out.println("Relationships table creation statement failed");
         }
@@ -148,13 +195,13 @@ public class TheSqlConnection {
         //String sql = "INSERT INTO warehouses(name,capacity) VALUES(?,?)";
         //TODO:DATEOFBIRTH
         String sql = "INSERT INTO Persons(FirstName, LastName, HomeAddress, DateOfBirth) VALUES(?,?,?,?)";
-        try{
-            if(conn != null) {
+        try {
+            if (conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setString(1, firstName);
                 pstmt.setString(2, lastName);
                 pstmt.setString(3, homeAddress);
-                pstmt.setDate(4, Date.valueOf(dateOfBirth));
+                pstmt.setObject(4, java.sql.Date.valueOf(dateOfBirth));
                 pstmt.executeUpdate();
                 return 0;
             }
@@ -169,8 +216,8 @@ public class TheSqlConnection {
         // Inserts given phone number into table PhoneNumbers
         // returns pnID
         String sql = "INSERT INTO PhoneNumbers(pID, PhoneCategory, Number) VALUES(?,?,?)";
-        try{
-            if(conn != null) {
+        try {
+            if (conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, pID);
                 pstmt.setString(2, pCategory.toString().toLowerCase());
@@ -190,8 +237,8 @@ public class TheSqlConnection {
         // Inserts given phone number into table PhoneNumbers
         // returns pnID
         String sql = "INSERT INTO Emails(pID, EmailCategory, Email) VALUES(?,?,?)";
-        try{
-            if(conn != null) {
+        try {
+            if (conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, pID);
                 pstmt.setString(2, emailCategory.toString().toLowerCase());
@@ -207,12 +254,12 @@ public class TheSqlConnection {
     }
 
     // INSERT INTO RELATIONSHIPS
-    public int insertRelationship(int p1, int p2, String rel1, String rel2){
+    public int insertRelationship(int p1, int p2, String rel1, String rel2) {
         String sql = "INSERT INTO Relationships(p1, p2, p1p2, p2p1) VALUES(?,?,?,?)";
-        try{
-            if(conn != null) {
+        try {
+            if (conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1,p1);
+                pstmt.setInt(1, p1);
                 pstmt.setInt(2, p2);
                 pstmt.setString(3, rel1);
                 pstmt.setString(4, rel2);
@@ -231,22 +278,22 @@ public class TheSqlConnection {
         // prints out ids of all persons with given name
     }
 
-    public Person selectPerson(int pID){
+    public Person selectPerson(int pID) {
         String sql = "SELECT * FROM Persons WHERE pID = (?)";
 
         Person person = null;
 
-        try{
-            if(conn != null) {
+        try {
+            if (conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, pID);
                 ResultSet rs = pstmt.executeQuery();
 
                 person = new Person(rs.getInt("pID"),
-                            rs.getString("FirstName"),
-                            rs.getString("LastName"),
-                            rs.getString("HomeAddress"),
-                            rs.getDate("DateOfBirth"));
+                        rs.getString("FirstName"),
+                        rs.getString("LastName"),
+                        rs.getString("HomeAddress"),
+                        rs.getDate("DateOfBirth"));
             }
         } catch (SQLException e) {
             System.out.println("Person (pID=" + pID + ") SELECT not working.");
@@ -340,5 +387,29 @@ public class TheSqlConnection {
                 "    )";*/
 
     }
+
+    /*public void updatePerson(int pId, String attributeName, String value){
+        String updateSql = "UPDATE Persons SET ? = ? WHERE pID = ?";
+        PreparedStatement uStmt = null;
+        try {
+            uStmt = conn.prepareStatement(updateSql);
+            uStmt.setString(1, attributeName);
+            uStmt.setString(2, value);
+            uStmt.setInt(3, pId);
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+
+        boolean autoCommit = conn.getAutoCommit();
+        try {
+            conn.setAutoCommit(false);
+            uStmt.executeUpdate();
+        } catch (SQLException exc) {
+            conn.rollback();
+        } finally {
+            conn.setAutoCommit((autoCommit));
+        }
+    }*/
+
 
 }

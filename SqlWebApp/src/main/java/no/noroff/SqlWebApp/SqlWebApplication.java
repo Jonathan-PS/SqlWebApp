@@ -4,10 +4,18 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SqlWebAppApplication {
+public class SqlWebApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SqlWebAppApplication.class, args);
+		TheSqlConnection conn = new TheSqlConnection();
+		conn.connect();
+		conn.initAllTables();
+
+
+		SpringApplication.run(SqlWebApplication.class, args);
+
 	}
+
+
 
 }
