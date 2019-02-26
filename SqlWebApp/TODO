@@ -1,23 +1,53 @@
 26.02.2019
+10:00
 
 CREATE AND INIT DB
-- Fix LocalDate to Date to db
-- Move the filling of the tables
+*- Fix LocalDate to Date to db
+*- Move the filling of the tables
 
 CRUD to db
-- Done with INSERT (Create) + add rollback when applied
-- need SELECT (read)
-- Need UPDATE with rollback on fail
-- Need DELETE
+*- Done with INSERT (Create) + add rollback when applied
+*- need SELECT (read)
+*- Need UPDATE with rollback on fail
+*- Need DELETE
 
 Temporary Java Objects
-- Store info in POJO --> class Person{}
-- So create 4 classes
+*- Store info in POJO --> class Person{}
+*- So create 4 classes
 (When SELECTing more than one sql element, store in ArrayList)
 
 
 REST
-- Take any POJO and send to browser
+*- Take any POJO and send to browser
 
+____________________________________________________
 
+26.02.2019
+14:30
 
+- Store phoneNumbers, emails and relations of a person in arrays/ArrayList  - in class Person
+- Store p1Name and p2Name in relationship - in class Relationships
+
+- A standard web page when accessing url that don't exist
+- /person should show all the person json objects. x4
+
+- generalize update
+
+UNFULFILLED REQUIREMENTS
+1. The app must perform CRUD operations for all tables
+2. The app must allow me to search by name/surname/telephone number.
+3. For a given contact it must show the related contacts and how they are related.
+--- This is all frontend. ---
+1. is done backend, not frontend
+2. we need SELECT methods that gets by firstname, lastname, and telephone number.
+
+LISTS OF JSON OBJECTS
+- List of persons - make a method that makes an array or ArrayList of Person objects
+
+SEARCH MECHANISM FROM BROWSER
+- to allow search of person by firstname, lastname, and telephone number
+
+ADD PERSON FROM BROWSER
+READ PERSON FROM BROWSER (done?)
+UPDATE PERSON FROM BROWSER
+REMOVE PERSON FROM BROWSER
