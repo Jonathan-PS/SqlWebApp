@@ -31,7 +31,7 @@ public class PhoneNumber {
     public void setPhoneCategory(String phoneCategory) {
         this.phoneCategory = phoneCategory;
     }
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 }
