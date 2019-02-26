@@ -17,7 +17,7 @@ public class Main {
                                     LocalDate.of(1999,04,12), LocalDate.of(1954,06,13)};
 
 
-        //System.out.println("Datevalue: " + dateOfBirth[1]);
+        System.out.println("Datevalue: " + dateOfBirth[1]);
         String[] emails = new String[10];
         for (int i = 0; i < firstName.length; i++) {
             emails[i] = firstName[i] + "." + lastName[i] + "@craigmail.com";
@@ -27,9 +27,9 @@ public class Main {
 
 
         TheSqlConnection conn = new TheSqlConnection();
-
         conn.connect();
         conn.initAllTables();
+
         for (int i = 0; i < firstName.length; i++) {
             //insertPerson(String firstName, String lastName, String homeAddress, LocalDate dateOfBirth)
             int outputP = conn.insertPerson(firstName[i], lastName[i], homeAddress[i], dateOfBirth[i]);
@@ -40,6 +40,7 @@ public class Main {
         conn.insertRelationship(1,2,"Brother","Brother");
         conn.insertRelationship(4,5,"Sister","Brother");
         conn.insertRelationship(8,10,"Father","Daughter");
+        conn.insertRelationship(10, 9, "Mother", "Son" );
 
     }
 }
