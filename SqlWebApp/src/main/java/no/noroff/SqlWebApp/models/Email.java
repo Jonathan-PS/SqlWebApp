@@ -1,26 +1,39 @@
 package no.noroff.SqlWebApp.models;
 
 public class Email {
-    private final int pID;
     private final int eID;
+    private final int pID;
     private String emailCategory;
     private String email;
 
     //Constructor
-    public Email (int pID, int eID, String emailCategory, String email) {
-        this.pID = pID;
+    public Email (int eID, int pID, String emailCategory, String email) {
         this.eID = eID;
+        this.pID = pID;
         this.emailCategory = emailCategory;
         this.email = email;
     }
 
+
+    /* GETTERS*/
+    public int geteID() {
+        return eID;
+    }
+    public int getpID() {
+        return pID;
+    }
+    public String getEmailCategory() {
+        return emailCategory;
+    }
     public String getEmail() {
         return (email);
     }
 
-    public int getEID() {
-        return (eID);
+    /* SETTERS */
+    public void setEmail(String email) {
+        this.email = email;
     }
-
-
+    public void setEmailCategory(String emailCategory) {
+        this.emailCategory = emailCategory;
+    }
 }

@@ -1,16 +1,6 @@
 package no.noroff.SqlWebApp.models;
 
 
-/*CREATE TABLE Persons (
-    pID int NOT NULL AUTO_INCREMENT,
-    FirstName varchar(255) NOT NULL,
-    LastName varchar(255) NOT NULL,
-    HomeAddress varchar(255),
-    DateOfBirth Date,
-    PRIMARY KEY(pID)
-    );*/
-
-
 import java.sql.Date;
 
 public class Person {
@@ -32,9 +22,34 @@ public class Person {
         this.dateOfBirth = dateOfBirth;
     }
 
+
+    /* GETTERS */
+    public int getpID() {
+        return pID;
+    }
+    public String getFirstName() {
+        return firstName;
+    }
+    public String getLastName() {
+        return lastName;
+    }
     public String getName() {
         return firstName + " " + lastName;
     }
     public Date getBirthDate() {return dateOfBirth;}
     public String getHomeAddress() {return homeAddress;}
+
+    /* SETTERS */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    public void setHomeAddress(String homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 }

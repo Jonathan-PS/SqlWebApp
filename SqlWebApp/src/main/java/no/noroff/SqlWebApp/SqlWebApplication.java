@@ -7,12 +7,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class SqlWebApplication {
+	public static TheSqlConnection conn;
 
 	public static void main(String[] args) {
-		TheSqlConnection conn = new TheSqlConnection();
+		SpringApplication.run(SqlWebApplication.class, args);
+
+		System.out.println("-------BEFORE");
+		conn = new TheSqlConnection();
 		conn.connect();
 		conn.initAllTables();
-
+		System.out.println("++++++++AFTER");
 
 
         // SELECT PERSON TESTING
@@ -20,15 +24,9 @@ public class SqlWebApplication {
         Person person2 = conn.selectPerson(2);
         System.out.println(person1.getName());
         System.out.println(person2.getName());
+
 		//SELECT PHONENUMBER TESTING
 		PhoneNumber phoneNumber1 = conn.selectPhoneNumber(1);
 		System.out.println(phoneNumber1.getPhoneNumber());
-
-
-        //SpringApplication.run(SqlWebApplication.class, args);
-
 	}
-
-
-
 }

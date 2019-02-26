@@ -187,13 +187,9 @@ public class TheSqlConnection {
 
             // FILL TABLE
             insertRelationship(1,2,"Brother","Brother");
-            insertRelationship(2, 1, "Brother", "Brother");
             insertRelationship(4,5,"Sister","Brother");
-            insertRelationship(5, 4, "Brother", "Sister");
             insertRelationship(8,10,"Father","Daughter");
-            insertRelationship(10, 8, "Daughter", "Father");
             insertRelationship(10, 9, "Mother", "Son" );
-            insertRelationship(9, 10, "Son", "Mother");
         } catch (SQLException E) {
             System.out.println("Relationships table creation statement failed");
         }
@@ -338,14 +334,14 @@ public class TheSqlConnection {
 
     }
 
-    public PhoneNumber selectPhoneNumber (int pID) {
+    public PhoneNumber selectPhoneNumber (int pnID) {
         String sql = "SELECT * FROM PhoneNumbers WHERE pID = (?)";
         PhoneNumber phoneNumber = null;
 
         try{
             if(conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1, pID);
+                pstmt.setInt(1, pnID);
                 ResultSet rs = pstmt.executeQuery();
 
                 phoneNumber = new PhoneNumber(rs.getInt("pID"),
@@ -354,24 +350,21 @@ public class TheSqlConnection {
                         rs.getString("Number"));
             }
         } catch (SQLException exc) {
-            System.out.println("Phone number (pID=" + pID + ") SELECT not working.");
+            System.out.println("Phone number (pID=" + pnID + ") SELECT not working.");
             System.out.println(exc.getMessage());
         }
 
         return phoneNumber;
-
-        /* */
-
     }
 
-    public Relationship selectRelationship (int p1) {
-        String sql = "SELECT * FROM Relationships WHERE pID = (?)";
+    public Relationship selectRelationship (int rID) {
+        String sql = "SELECT * FROM Relationships WHERE rID = (?)";
         Relationship relationship = null;
 
         try{
             if(conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1, p1);
+                pstmt.setInt(1, rID);
                 ResultSet rs = pstmt.executeQuery();
 
                 relationship = new Relationship(rs.getInt("rID"),
@@ -381,21 +374,11 @@ public class TheSqlConnection {
                         rs.getString("p2p1"));
             }
         } catch (SQLException exc) {
-            System.out.println("Relationship (pID=" + p1 + ") SELECT not working.");
+            System.out.println("Relationship (pID=" + rID + ") SELECT not working.");
             System.out.println(exc.getMessage());
         }
 
         return relationship;
-
-        /* "CREATE TABLE Relationships (\n" +
-                "    rID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-                "    p1 int NOT NULL,\n" +
-                "    p2 int NOT NULL,\n" +
-                "    p1p2 varchar(255) NOT NULL,\n" +
-                "    p2p1 varchar(255) NOT NULL,\n" +
-                "    FOREIGN KEY(p1) REFERENCES Persons(pID),\n" +
-                "    FOREIGN KEY(p2) REFERENCES Persons(pID)\n" +
-                "    )";*/
 
     }
 
