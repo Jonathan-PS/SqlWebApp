@@ -1,4 +1,4 @@
-package no.noroff.SqlWebApp;
+package no.noroff.SqlWebApp.enumerators;
 
 public enum PhoneCategories {
     WORK, HOME, MOBILE

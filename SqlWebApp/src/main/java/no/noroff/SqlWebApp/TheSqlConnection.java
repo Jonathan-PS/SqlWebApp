@@ -1,5 +1,12 @@
 package no.noroff.SqlWebApp;
 
+import no.noroff.SqlWebApp.enumerators.EmailCategories;
+import no.noroff.SqlWebApp.enumerators.PhoneCategories;
+import no.noroff.SqlWebApp.models.Email;
+import no.noroff.SqlWebApp.models.Person;
+import no.noroff.SqlWebApp.models.PhoneNumber;
+import no.noroff.SqlWebApp.models.Relationship;
+
 import java.sql.*;
 import java.time.LocalDate;
 
