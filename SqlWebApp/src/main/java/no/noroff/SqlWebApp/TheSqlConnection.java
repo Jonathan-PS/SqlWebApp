@@ -281,9 +281,6 @@ public class TheSqlConnection {
     }
 
 
-    public void getPIDByName(String firstName, String lastName) {
-        // prints out ids of all persons with given name
-    }
 
     public Person selectPerson(int pID) {
         String sql = "SELECT * FROM Persons WHERE pID = (?)";
@@ -308,7 +305,6 @@ public class TheSqlConnection {
         }
         return person;
     }
-
 
     public Email selectEmail (int pID) {
         String sql = "SELECT * FROM Emails WHERE pID = (?)";
@@ -387,7 +383,6 @@ public class TheSqlConnection {
         PreparedStatement uStmt = null;
         try {
             uStmt = conn.prepareStatement(updateSql);
-            uStmt.setString(1, attributeName);
             uStmt.setString(1, value);
             uStmt.setInt(2, pId);
 
