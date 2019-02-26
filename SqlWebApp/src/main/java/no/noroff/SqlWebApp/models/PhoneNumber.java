@@ -1,4 +1,4 @@
-package no.noroff.SqlWebApp;
+package no.noroff.SqlWebApp.models;
 
 public class PhoneNumber {
     private final int pID;
