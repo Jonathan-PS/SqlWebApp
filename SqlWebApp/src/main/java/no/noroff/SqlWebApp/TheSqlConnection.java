@@ -231,6 +231,30 @@ public class TheSqlConnection {
         // prints out ids of all persons with given name
     }
 
+    public Person selectPerson(int pID){
+        String sql = "SELECT * FROM Persons WHERE pID = (?)";
+
+        Person person = null;
+
+        try{
+            if(conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, pID);
+                ResultSet rs = pstmt.executeQuery();
+
+                person = new Person(rs.getInt("pID"),
+                            rs.getString("FirstName"),
+                            rs.getString("LastName"),
+                            rs.getString("HomeAddress"),
+                            rs.getDate("DateOfBirth"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Person (pID=" + pID + ") SELECT not working.");
+            System.out.println(e.getMessage());
+        }
+
+        return person;
+    }
 
 
 }

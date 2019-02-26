@@ -61,3 +61,6 @@ INSERT INTO Relationships (rID, p1, p2, p1p2, p2p1)
    VALUES(?,?,?,?,?);
 
 
+
+
+SELECT * FROM Persons WHERE pID = ?
