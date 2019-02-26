@@ -38,9 +38,13 @@ public class Main {
         }
 
         conn.insertRelationship(1,2,"Brother","Brother");
+        conn.insertRelationship(2, 1, "Brother", "Brother");
         conn.insertRelationship(4,5,"Sister","Brother");
+        conn.insertRelationship(5, 4, "Brother", "Sister");
         conn.insertRelationship(8,10,"Father","Daughter");
+        conn.insertRelationship(10, 8, "Daughter", "Father");
         conn.insertRelationship(10, 9, "Mother", "Son" );
+        conn.insertRelationship(9, 19, "Son", "Mother");
 
 
         // SELECT PERSON TESTING
