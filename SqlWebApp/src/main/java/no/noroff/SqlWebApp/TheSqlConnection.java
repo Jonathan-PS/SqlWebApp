@@ -382,8 +382,8 @@ public class TheSqlConnection {
 
     }
 
-  public void updatePerson(int pId, String attributeName, String value) {
-        String updateSql = String.format("UPDATE Persons SET %s =? WHERE pID=?", attributeName);
+  public void updateTable(int pId, String tableName, String attributeName, String value) {
+        String updateSql = String.format("UPDATE %s SET %s =? WHERE pID=?",tableName,attributeName);
         PreparedStatement uStmt = null;
         try {
             uStmt = conn.prepareStatement(updateSql);
