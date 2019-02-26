@@ -2,6 +2,8 @@ package no.noroff.SqlWebApp.models;
 
 
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Person {
     private final int pID; // Never to be changed, thus final.
@@ -10,9 +12,9 @@ public class Person {
     private String homeAddress;
     private Date dateOfBirth;
 
-    // TODO:
-    private int[] phoneNumbers;
-    private String[] emails;
+    // TODO: Populate the following maps
+    private Map<String, String> phoneNumberMap = new HashMap<>();
+    private Map<String, String> emailMap = new HashMap<>();
 
     public Person(int pID, String firstName, String lastName, String homeAddress, Date dateOfBirth){
         this.pID = pID;

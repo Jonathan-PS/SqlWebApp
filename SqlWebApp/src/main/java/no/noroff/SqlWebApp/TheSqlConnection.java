@@ -34,7 +34,6 @@ public class TheSqlConnection {
     }
 
 
-
     public void connect() {
         String url = "jdbc:sqlite:src/main/resources/HappyFamily.sqlite";
         //String url = "jdbc:sqlite::resource:HappyFamily.sqlite";

@@ -2,6 +2,7 @@ package no.noroff.SqlWebApp;
 
 import no.noroff.SqlWebApp.models.Person;
 import no.noroff.SqlWebApp.models.PhoneNumber;
+import no.noroff.SqlWebApp.models.Relationship;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -29,6 +30,16 @@ public class SqlWebApplication {
 
 		//SELECT PHONENUMBER TESTING
 		PhoneNumber phoneNumber1 = conn.selectPhoneNumber(1);
+
+		System.out.println(phoneNumber1.getPhoneNumber());
+
+		Relationship rel = conn.selectRelationship(1);
+		System.out.printf("Relationship %d:	%s	%s	%s	%s\n",
+				rel.getrID(), rel.getP1Name(), rel.getP2Name(), rel.getP1p2(), rel.getP2p1());
+
+		Relationship rel2 = conn.selectRelationship(2);
+		System.out.printf("Relationship %d:	%s	%s	%s	%s\n",
+				rel2.getrID(), rel2.getP1Name(), rel2.getP2Name(), rel2.getP1p2(), rel2.getP2p1());
 		//System.out.println(phoneNumber1.getPhoneNumber());
 
 		ArrayList<Person> personList = new ArrayList<Person>();
@@ -40,5 +51,6 @@ public class SqlWebApplication {
 
 		Person p = conn.selectPerson(phoneBook.get(0).getpID());
 		System.out.println(p.getName() + " " + phoneBook.get(0).getPhoneNumber());
+
 	}
 }

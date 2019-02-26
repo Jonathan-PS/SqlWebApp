@@ -1,3 +1,8 @@
+REQUIREMENTS
+1. The app must perform CRUD operations for all tables
+2. The app must allow me to search by name/surname/telephone number.
+3. For a given contact it must show the related contacts and how they are related.
+_________________________________________________________
 26.02.2019
 10:00
 
@@ -25,21 +30,15 @@ ____________________________________________________
 26.02.2019
 14:30
 
-- Store phoneNumbers, emails and relations of a person in arrays/ArrayList  - in class Person
+- Store phoneNumbers, emails and relations of a person in Map/HashMap  - in class Person
 - Store p1Name and p2Name in relationship - in class Relationships
 
 - A standard web page when accessing url that don't exist
 - /person should show all the person json objects. x4
 
-- generalize update
+*- generalize update
 
-UNFULFILLED REQUIREMENTS
-1. The app must perform CRUD operations for all tables
-2. The app must allow me to search by name/surname/telephone number.
-3. For a given contact it must show the related contacts and how they are related.
---- This is all frontend. ---
-1. is done backend, not frontend
-2. we need SELECT methods that gets by firstname, lastname, and telephone number.
+*- Need SELECT methods that gets by firstname, lastname, and telephone number.
 
 LISTS OF JSON OBJECTS
 - List of persons - make a method that makes an array or ArrayList of Person objects
@@ -51,3 +50,12 @@ ADD PERSON FROM BROWSER
 READ PERSON FROM BROWSER (done?)
 UPDATE PERSON FROM BROWSER
 REMOVE PERSON FROM BROWSER
+
+
+ONLY ALLOWED P_ID
+- check whether pID exists before adding entry into the other tables
+
+
+RESTRUCTURE that damn TheSqlConnection.java file
+- maybe a separate file for all manipulations of each table?
+- and a file for the init of all columns?
