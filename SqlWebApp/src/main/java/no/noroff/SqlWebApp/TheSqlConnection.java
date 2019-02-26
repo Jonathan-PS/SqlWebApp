@@ -256,17 +256,15 @@ public class TheSqlConnection {
         return person;
     }
 
-    /*public void updatePerson(int pId, String attributeName, String value){
-        String updateSql = "UPDATE Persons SET ? = ? WHERE pID = ?";
+    public void updatePerson(int pId, String attributeName, String value) {
+        String updateSql = String.format("UPDATE Persons SET %s =? WHERE pID=?", attributeName);
         PreparedStatement uStmt = null;
         try {
             uStmt = conn.prepareStatement(updateSql);
             uStmt.setString(1, attributeName);
-            uStmt.setString(2, value);
-            uStmt.setInt(3, pId);
-        } catch (SQLException ex){
-            System.out.println(ex.getMessage());
-        }
+            uStmt.setString(1, value);
+            uStmt.setInt(2, pId);
+
 
         boolean autoCommit = conn.getAutoCommit();
         try {
@@ -276,7 +274,10 @@ public class TheSqlConnection {
             conn.rollback();
         } finally {
             conn.setAutoCommit((autoCommit));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
-    }*/
+    }
 
 }
