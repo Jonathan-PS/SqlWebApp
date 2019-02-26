@@ -310,7 +310,6 @@ public class TheSqlConnection {
             System.out.println("Person (pID=" + pID + ") SELECT not working.");
             System.out.println(e.getMessage());
         }
-
         return person;
     }
 
@@ -417,12 +416,54 @@ public class TheSqlConnection {
         } catch (SQLException exc) {
             conn.rollback();
         } finally {
-            conn.setAutoCommit((autoCommit));
+            conn.setAutoCommit(autoCommit);
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
 
+    public void delete(int id) {
+        //String sql = "DELETE " +
+         //       "FROM Persons p JOIN PhoneNumbers pn ON p.pID = pn.pID" +
+          //      "JOIN Emails e ON p.pID = e.pID WHERE pID = ?";
+        String sql1 = "DELETE FROM Emails WHERE pID = ?";
+        String sql2 = "DELETE FROM PhoneNumbers WHERE pID = ?";
+        String sql3 = "DELETE FROM Relationships WHERE p1 = ? OR p2 = ?";
+        String sql4 = "DELETE FROM Persons WHERE pID = ?";
+        try {
+             PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+            // set the corresponding param
+            pstmt1.setInt(1, id);
 
+            PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+            // set the corresponding param
+            pstmt2.setInt(1, id);
+
+            PreparedStatement pstmt3 = conn.prepareStatement(sql3);
+            // set the corresponding param
+            pstmt3.setInt(1, id);
+            pstmt3.setInt(2, id);
+
+            PreparedStatement pstmt4 = conn.prepareStatement(sql4);
+            // set the corresponding param
+            pstmt4.setInt(1, id);
+
+            boolean autoCommit = conn.getAutoCommit();
+            try{
+                conn.setAutoCommit(false);
+                pstmt1.executeUpdate();
+                pstmt2.executeUpdate();
+                pstmt3.executeUpdate();
+                pstmt4.executeUpdate();
+            }catch(SQLException exc){
+                conn.rollback();
+            } finally{
+                conn.setAutoCommit(autoCommit);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
