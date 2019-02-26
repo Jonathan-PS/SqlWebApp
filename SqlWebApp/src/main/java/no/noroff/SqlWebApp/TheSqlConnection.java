@@ -180,9 +180,13 @@ public class TheSqlConnection {
 
             // FILL TABLE
             insertRelationship(1,2,"Brother","Brother");
+            insertRelationship(2, 1, "Brother", "Brother");
             insertRelationship(4,5,"Sister","Brother");
+            insertRelationship(5, 4, "Brother", "Sister");
             insertRelationship(8,10,"Father","Daughter");
+            insertRelationship(10, 8, "Daughter", "Father");
             insertRelationship(10, 9, "Mother", "Son" );
+            insertRelationship(9, 19, "Son", "Mother");
         } catch (SQLException E) {
             System.out.println("Relationships table creation statement failed");
         }
