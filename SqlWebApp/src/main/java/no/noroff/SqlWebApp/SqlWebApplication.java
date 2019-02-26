@@ -6,12 +6,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class SqlWebApplication {
+	public static TheSqlConnection conn;
 
 	public static void main(String[] args) {
-		TheSqlConnection conn = new TheSqlConnection();
+		SpringApplication.run(SqlWebApplication.class, args);
+
+		System.out.println("-------BEFORE");
+		conn = new TheSqlConnection();
 		conn.connect();
 		conn.initAllTables();
-
+		System.out.println("++++++++AFTER");
 
 
         // SELECT PERSON TESTING
@@ -20,12 +24,5 @@ public class SqlWebApplication {
 
         System.out.println(person1.getName());
         System.out.println(person2.getName());
-
-
-        //SpringApplication.run(SqlWebApplication.class, args);
-
 	}
-
-
-
 }

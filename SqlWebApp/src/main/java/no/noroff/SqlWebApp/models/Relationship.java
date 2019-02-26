@@ -3,6 +3,8 @@ package no.noroff.SqlWebApp.models;
 public class Relationship {
     private final int rID;
     private final int p1;
+    private String p1Name;
+    private String p2Name;
     private final int p2;
     private String p1p2;
     private String p2p1;
@@ -16,6 +18,7 @@ public class Relationship {
         this.p2p1 = p2p1;
     }
 
+    /* GETTERS */
     public int getrID () {
         return rID;
     }
@@ -30,5 +33,13 @@ public class Relationship {
     }
     public String getP2P1 () {
         return p2p1;
+    }
+
+    /* SETTERS*/
+    public void setP1p2(String p1p2) {
+        this.p1p2 = p1p2;
+    }
+    public void setP2p1(String p2p1) {
+        this.p2p1 = p2p1;
     }
 }
