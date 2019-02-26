@@ -21,8 +21,18 @@ public class TheSqlConnection {
         }
     }
 
-    /* TABLE INITIALIZERS */
+    //Close the connection
+    public void closeConnection() {
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException exc) {
+            System.out.println(exc.getMessage());
+        }
+    }
 
+    /* TABLE INITIALIZERS */
     public void initAllTables() {
         initPersons();
         initPhoneNumbers();
