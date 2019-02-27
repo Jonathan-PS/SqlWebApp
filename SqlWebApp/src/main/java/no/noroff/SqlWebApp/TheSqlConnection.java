@@ -505,4 +505,38 @@ public class TheSqlConnection {
             System.out.println(e.getMessage());
         }
     }
+
+    public boolean checkPID(int pID) {
+        String sql = "SELECT pID from Persons WHERE pID = ?";
+        //Person person = null;
+        boolean personExcists = false;
+
+        try {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, pID);
+                ResultSet rs = pstmt.executeQuery();
+
+                if(rs.next()) {
+                    personExcists = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Person (Name=" + pID + ") NOT Found.");
+            System.out.println(e.getMessage());
+        }
+
+        return personExcists;
+
+    }
+
+
+
+
+
+
+
+
+
+
 }
