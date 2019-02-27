@@ -1,9 +1,11 @@
 package no.noroff.SqlWebApp.models;
 
-
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static no.noroff.SqlWebApp.SqlWebApplication.sqlConn;
 
 public class Person {
     private final int pID; // Never to be changed, thus final.
@@ -12,9 +14,10 @@ public class Person {
     private String homeAddress;
     private Date dateOfBirth;
 
-    // TODO: Populate the following maps
     private Map<String, String> phoneNumbers = new HashMap<>();
-    private Map<String, String> emailMap = new HashMap<>();
+    private Map<String, String> emails = new HashMap<>();
+    private Map<String, Integer> relations = new HashMap<>();
+
 
     public Person(int pID, String firstName, String lastName, String homeAddress, Date dateOfBirth){
         this.pID = pID;
@@ -23,7 +26,9 @@ public class Person {
         this.homeAddress = homeAddress;
         this.dateOfBirth = dateOfBirth;
 
-        //phoneNumberMap.put("work", getNumber());
+        setEmails();
+        setPhoneNumbers();
+        theRelations();
     }
 
 
@@ -37,11 +42,20 @@ public class Person {
     public String getLastName() {
         return lastName;
     }
-    public String getName() {
-        return firstName + " " + lastName;
-    }
-    public Date getBirthDate() {return dateOfBirth;}
     public String getHomeAddress() {return homeAddress;}
+    public Map<String, String> getEmails() {
+        return emails;
+    }
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+    public Map<String, String> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    public Map<String, Integer> getRelations() {
+        return relations;
+    }
 
     /* SETTERS */
     public void setFirstName(String firstName) {
@@ -56,4 +70,35 @@ public class Person {
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
+
+    private void setEmails() {
+        ArrayList<Email> emailList = sqlConn.selectEmailList(pID);
+        for(Email email: emailList){
+            emails.put(email.getEmailCategory(), email.getEmail());
+        }
+    }
+
+    private void setPhoneNumbers() {
+        ArrayList<PhoneNumber> phoneNumberList = sqlConn.selectPhoneNumberList(pID);
+        for (PhoneNumber number: phoneNumberList) {
+            phoneNumbers.put(number.getPhoneCategory(), number.getPhoneNumber());
+        }
+    }
+
+
+    private void theRelations() {
+        ArrayList<Relationship> allRelationships = sqlConn.selectPersonalRelationship(pID);
+        for (Relationship relation : allRelationships) {
+            if (pID == relation.getP1()) {
+                relations.put(relation.getP1p2(),
+                        relation.getP2());
+            } else if (pID == relation.getP2()) {
+                relations.put(relation.getP2p1(),
+                        relation.getP1());
+
+            }
+        }
+
+    }
+
 }

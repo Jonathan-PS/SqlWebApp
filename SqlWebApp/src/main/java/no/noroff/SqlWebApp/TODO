@@ -31,7 +31,7 @@ ____________________________________________________
 26.02.2019
 14:30
 
-- Store phoneNumbers, emails and relations of a person in Map/HashMap  - in class Person
+*- Store phoneNumbers, emails and relations of a person in Map/HashMap  - in class Person
 - Store p1Name and p2Name in relationship - in class Relationships
 
 - A standard web page when accessing url that don't exist
