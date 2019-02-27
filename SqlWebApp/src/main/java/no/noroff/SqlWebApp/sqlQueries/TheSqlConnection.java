@@ -617,24 +617,30 @@ public class TheSqlConnection {
     public void updateTable(int pId, String tableName, String attributeName, String value) {
         String updateSql = String.format("UPDATE %s SET %s =? WHERE pID=?",tableName,attributeName);
         PreparedStatement uStmt = null;
-        try {
-            uStmt = conn.prepareStatement(updateSql);
-            uStmt.setString(1, value);
-            uStmt.setInt(2, pId);
+        if (checkPID(pId)) {
+            try {
+
+                uStmt = conn.prepareStatement(updateSql);
+                uStmt.setString(1, value);
+                uStmt.setInt(2, pId);
 
 
-        boolean autoCommit = conn.getAutoCommit();
-        try {
-            conn.setAutoCommit(false);
-            uStmt.executeUpdate();
-        } catch (SQLException exc) {
-            conn.rollback();
-        } finally {
-            conn.setAutoCommit(autoCommit);
+                boolean autoCommit = conn.getAutoCommit();
+                try {
+                    conn.setAutoCommit(false);
+                    uStmt.executeUpdate();
+                } catch (SQLException exc) {
+                    conn.rollback();
+                } finally {
+                    conn.setAutoCommit(autoCommit);
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
             }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+        } else {
+            System.out.println("The person you are trying to update does not exists. ");
         }
+
     }
 
     public void delete(int id) {
@@ -645,39 +651,45 @@ public class TheSqlConnection {
         String sql2 = "DELETE FROM PhoneNumbers WHERE pID = ?";
         String sql3 = "DELETE FROM Relationships WHERE p1 = ? OR p2 = ?";
         String sql4 = "DELETE FROM Persons WHERE pID = ?";
-        try {
-             PreparedStatement pstmt1 = conn.prepareStatement(sql1);
-            // set the corresponding param
-            pstmt1.setInt(1, id);
 
-            PreparedStatement pstmt2 = conn.prepareStatement(sql2);
-            // set the corresponding param
-            pstmt2.setInt(1, id);
+        if(checkPID(id)) {
+            try {
+                PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+                // set the corresponding param
+                pstmt1.setInt(1, id);
 
-            PreparedStatement pstmt3 = conn.prepareStatement(sql3);
-            // set the corresponding param
-            pstmt3.setInt(1, id);
-            pstmt3.setInt(2, id);
+                PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+                // set the corresponding param
+                pstmt2.setInt(1, id);
 
-            PreparedStatement pstmt4 = conn.prepareStatement(sql4);
-            // set the corresponding param
-            pstmt4.setInt(1, id);
+                PreparedStatement pstmt3 = conn.prepareStatement(sql3);
+                // set the corresponding param
+                pstmt3.setInt(1, id);
+                pstmt3.setInt(2, id);
 
-            boolean autoCommit = conn.getAutoCommit();
-            try{
-                conn.setAutoCommit(false);
-                pstmt1.executeUpdate();
-                pstmt2.executeUpdate();
-                pstmt3.executeUpdate();
-                pstmt4.executeUpdate();
-            }catch(SQLException exc){
-                conn.rollback();
-            } finally{
-                conn.setAutoCommit(autoCommit);
+                PreparedStatement pstmt4 = conn.prepareStatement(sql4);
+                // set the corresponding param
+                pstmt4.setInt(1, id);
+
+                boolean autoCommit = conn.getAutoCommit();
+                try {
+                    conn.setAutoCommit(false);
+                    pstmt1.executeUpdate();
+                    pstmt2.executeUpdate();
+                    pstmt3.executeUpdate();
+                    pstmt4.executeUpdate();
+                } catch (SQLException exc) {
+                    conn.rollback();
+                } finally {
+                    conn.setAutoCommit(autoCommit);
+                    System.out.println("Person deleted");
+                }
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
             }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        } else {
+            System.out.println("The person you are trying to delete does not exist.");
         }
     }
 
