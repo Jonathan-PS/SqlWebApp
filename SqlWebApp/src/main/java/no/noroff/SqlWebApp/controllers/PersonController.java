@@ -14,7 +14,7 @@ public class PersonController {
 
         System.out.println("Trying to find person: " + pID);
 
-        Person person = SqlWebApplication.conn.selectPerson(pID);
+        Person person = SqlWebApplication.sqlConn.selectPerson(pID);
 
         return person;
 

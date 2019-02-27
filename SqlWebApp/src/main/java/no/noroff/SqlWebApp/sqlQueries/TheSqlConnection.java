@@ -1,4 +1,4 @@
-package no.noroff.SqlWebApp;
+package no.noroff.SqlWebApp.sqlQueries;
 
 import no.noroff.SqlWebApp.enumerators.EmailCategories;
 import no.noroff.SqlWebApp.enumerators.PhoneCategories;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TheSqlConnection {
-    Connection conn = null;
+    private Connection conn = null;
 
     // Data for constructing our initial sqlite database
     String[] firstName = {"Leon", "Eliot", "Malak", "Katya", "Tobias", "Natalya", "Kelise", "Cieran", "Duke", "Lilly"};
@@ -24,7 +24,7 @@ public class TheSqlConnection {
             LocalDate.of(2010,07,21), LocalDate.of(1991,11,14),
             LocalDate.of(2001,03,30), LocalDate.of(1920,10,2),
             LocalDate.of(1999,04,12), LocalDate.of(1954,06,13)};
-    String[] phoneNumbers = {"12345678", "23456789", "34567890", "45678901", "56789012", "67890123", "78901234", "89012345", "90123456", "12345670"};
+    String[] phoneNumbers = {"12345678", "23456789", "34567890", "45678901", "56789012", "67890123", "78901234", "89012345", "90123456", "12345678"};
     String[] emails = new String[10];
     {
         for (int i = 0; i < firstName.length; i++) {
@@ -122,7 +122,8 @@ public class TheSqlConnection {
 
             // FILL TABLE
             for (int i = 0; i < firstName.length; i++) {
-                insertPhoneNumber(i+1, PhoneCategories.MOBILE, phoneNumbers[i]);
+                if (i<7) insertPhoneNumber(i+1, PhoneCategories.MOBILE, phoneNumbers[i]);
+                else insertPhoneNumber((i+1)%7, PhoneCategories.WORK, phoneNumbers[i]);
             }
 
 
@@ -153,7 +154,9 @@ public class TheSqlConnection {
 
             // FILL TABLE
             for (int i = 0; i < firstName.length; i++) {
-                insertEmails(i+1, EmailCategories.PERSONAL, emails[i]);
+                if (i<4) insertEmails(i+1, EmailCategories.PERSONAL, emails[i]);
+                else insertEmails((i+1)%4, EmailCategories.WORK, emails[i]);
+
             }
 
         } catch (SQLException E) {
@@ -281,7 +284,7 @@ public class TheSqlConnection {
     }
 
 
-
+    /*  BASIC SELECTS*/
     public Person selectPerson(int pID) {
         String sql = "SELECT * FROM Persons WHERE pID = (?)";
 
@@ -306,7 +309,85 @@ public class TheSqlConnection {
         return person;
     }
 
-    //Search by first or last name
+    public PhoneNumber selectPhoneNumber (int pnID) {
+        String sql = "SELECT * FROM PhoneNumbers WHERE pID = (?)";
+        PhoneNumber phoneNumber = null;
+
+        try{
+            if(conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, pnID);
+                ResultSet rs = pstmt.executeQuery();
+
+                phoneNumber = new PhoneNumber(rs.getInt("pID"),
+                        rs.getInt("pnID"),
+                        rs.getString("PhoneCategory"),
+                        rs.getString("Number"));
+            }
+        } catch (SQLException exc) {
+            System.out.println("Phone number (pID=" + pnID + ") SELECT not working.");
+            System.out.println(exc.getMessage());
+        }
+
+        return phoneNumber;
+    }
+
+    public Relationship selectRelationship (int rID) {
+        String sql = "SELECT * FROM Relationships WHERE rID = (?)";
+        Relationship relationship = null;
+
+        try{
+            if(conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, rID);
+                ResultSet rs = pstmt.executeQuery();
+
+                relationship = new Relationship(rs.getInt("rID"),
+                        rs.getInt("p1"),
+                        rs.getInt("p2"),
+                        rs.getString("p1p2"),
+                        rs.getString("p2p1"));
+            }
+        } catch (SQLException exc) {
+            System.out.println("Relationship (pID=" + rID + ") SELECT not working.");
+            System.out.println(exc.getMessage());
+        }
+
+        return relationship;
+
+    }
+
+    public Email selectEmail (int eID) {
+        String sql = "SELECT * FROM Emails WHERE eID = (?)";
+        Email email = null;
+
+        try{
+            if(conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, eID);
+                ResultSet rs = pstmt.executeQuery();
+
+                email = new Email(rs.getInt("eID"),
+                        rs.getInt("pID"),
+                        rs.getString("EmailCategory"),
+                        rs.getString("Email"));
+            }
+        } catch (SQLException exc) {
+            System.out.println("Email (eID=" + eID + ") SELECT not working.");
+            System.out.println(exc.getMessage());
+        }
+
+        return email;
+
+    }
+
+    /* ADVANCED SELECTS */
+    /**
+     * Returns a list of Person objects who have given firstname or given lastname
+     * @param attribute = "FirstName" or "LastName"
+     * @param searchName
+     * @return
+     */
     public ArrayList<Person> selectPersonByName(String attribute, String searchName) {
         ArrayList<Person> personList = new ArrayList<Person>();
 
@@ -335,55 +416,12 @@ public class TheSqlConnection {
         return personList;
     }
 
-    public Email selectEmail (int pID) {
-        String sql = "SELECT * FROM Emails WHERE pID = (?)";
-        Email email = null;
-
-        try{
-            if(conn != null) {
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1, pID);
-                ResultSet rs = pstmt.executeQuery();
-
-                email = new Email(rs.getInt("pID"),
-                        rs.getInt("eID"),
-                        rs.getString("EmailCategory"),
-                        rs.getString("Email"));
-            }
-        } catch (SQLException exc) {
-            System.out.println("Email (pID=" + pID + ") SELECT not working.");
-            System.out.println(exc.getMessage());
-        }
-
-        return email;
-
-    }
-
-    public PhoneNumber selectPhoneNumber (int pnID) {
-        String sql = "SELECT * FROM PhoneNumbers WHERE pID = (?)";
-        PhoneNumber phoneNumber = null;
-
-        try{
-            if(conn != null) {
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1, pnID);
-                ResultSet rs = pstmt.executeQuery();
-
-                phoneNumber = new PhoneNumber(rs.getInt("pID"),
-                        rs.getInt("pnID"),
-                        rs.getString("PhoneCategory"),
-                        rs.getString("Number"));
-            }
-        } catch (SQLException exc) {
-            System.out.println("Phone number (pID=" + pnID + ") SELECT not working.");
-            System.out.println(exc.getMessage());
-        }
-
-        return phoneNumber;
-    }
-
-    //Search by first or last name
-    public ArrayList<PhoneNumber> selectPersonByNumber(String searchNumber) {
+    /**
+     * Returns a list of PhoneNumber objects that contains given phone number.
+     * @param searchNumber
+     * @return
+     */
+    public ArrayList<PhoneNumber> selectAllEqualPhoneNumbers(String searchNumber) {
         ArrayList<PhoneNumber> phoneBook = new ArrayList<PhoneNumber>();
 
         String sql = "SELECT * FROM PhoneNumbers WHERE Number = ? ";
@@ -404,41 +442,152 @@ public class TheSqlConnection {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Person (Number=" + searchNumber + ") NOT Found.");
+            System.out.println("PhoneNumber (Number=" + searchNumber + ") NOT Found.");
             System.out.println(e.getMessage());
         }
         return phoneBook;
     }
 
-    public Relationship selectRelationship (int rID) {
-        String sql = "SELECT * FROM Relationships WHERE rID = (?)";
-        Relationship relationship = null;
+    public ArrayList<PhoneNumber> selectPhoneNumberList(int pID) {
+        ArrayList<PhoneNumber> phoneBook = new ArrayList<PhoneNumber>();
+
+        String sql = "SELECT * FROM PhoneNumbers WHERE pID = ? ";
+        PhoneNumber phoneNumber = null;
+
+        try {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, pID);
+                ResultSet rs = pstmt.executeQuery();
+
+                while(rs.next()) {
+                    phoneNumber = new PhoneNumber(rs.getInt("pnID"),
+                            rs.getInt("pID"),
+                            rs.getString("PhoneCategory"),
+                            rs.getString("Number"));
+                    phoneBook.add(phoneNumber);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("PhoneNumber (pID = " + pID + ") NOT Found.");
+            System.out.println(e.getMessage());
+        }
+        return phoneBook;
+    }
+
+    /**
+     * Returns a list of Email objects owned by given person.
+     * @param pID
+     * @return
+     */
+    public ArrayList<Email> selectEmailList (int pID) {
+        ArrayList<Email> emailBook = new ArrayList<Email>();
+        String sql = "SELECT * FROM Emails WHERE pID = (?)";
+        Email email = null;
 
         try{
             if(conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1, rID);
+                pstmt.setInt(1, pID);
                 ResultSet rs = pstmt.executeQuery();
 
-                relationship = new Relationship(rs.getInt("rID"),
-                        rs.getInt("p1"),
-                        rs.getInt("p2"),
-                        rs.getString("p1p2"),
-                        rs.getString("p2p1"));
+                while(rs.next()) {
+                    email = new Email(rs.getInt("pID"),
+                            rs.getInt("eID"),
+                            rs.getString("EmailCategory"),
+                            rs.getString("Email"));
+                    emailBook.add(email);
+                }
             }
         } catch (SQLException exc) {
-            System.out.println("Relationship (pID=" + rID + ") SELECT not working.");
+            System.out.println("Email (pID=" + pID + ") SELECT not working.");
             System.out.println(exc.getMessage());
         }
 
-        return relationship;
+        return emailBook;
 
     }
 
+    public ArrayList<Relationship> selectPersonalRelationship(int pID) {
+        String sql1 = "SELECT * FROM Relationships WHERE p1 = (?)";
+        String sql2 = "SELECT * FROM Relationships WHERE p2 = (?)";
+        ArrayList<Relationship> allRelations = new ArrayList<Relationship>();
+        //Relationship relation = null;
+
+        try{
+            if(conn != null) {
+                PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+                PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+                pstmt1.setInt(1, pID);
+                pstmt2.setInt(1, pID);
+
+                ResultSet rs1 = pstmt1.executeQuery();
+                ResultSet rs2 = pstmt2.executeQuery();
+
+                int rID=-1, p1=-1, p2=-1;
+                String p1p2 = null, p2p1 = null;
+                while(rs1.next()) {
+                    rID = rs1.getInt("rID");
+                    p1 = rs1.getInt("p1");
+                    p2 = rs1.getInt("p2");
+                    p1p2 = rs1.getString("p1p2");
+                    p2p1 = rs1.getString("p2p1");
+                    Relationship relation = new Relationship(rID, p1, p2, p1p2, p2p1);
+                    int i =0;
+                    allRelations.add(relation);
+                }
+                while(rs2.next()) {
+                    Relationship relation = new Relationship(rs2.getInt("rID"),
+                            rs2.getInt("p1"),
+                            rs2.getInt("p2"),
+                            rs2.getString("p1p2"),
+                            rs2.getString("p2p1"));
+                    allRelations.add(relation);
+                }
+
+            }
+        } catch (SQLException exc) {
+            System.out.println("Relationship (pID=" + pID + ") SELECT not working.");
+            System.out.println(exc.getMessage());
+        }
+
+        return allRelations;
+    }
+
+    /* TOTAL SELECTS */
+    public ArrayList<Relationship> selectAllRelations() {
+        ArrayList<Relationship> allRelationships = new ArrayList<Relationship>();
+        String sql = "SELECT * FROM Relationships";
+        Relationship relation = null;
+
+        try {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                ResultSet rs = pstmt.executeQuery();
+
+                while(rs.next()) {
+                    relation = new Relationship(rs.getInt("rID"),
+                            rs.getInt("p1"),
+                            rs.getInt("p2"),
+                            rs.getString("p1p2"),
+                            rs.getString("p2p1"));
+
+                    allRelationships.add(relation);
+                    System.out.println("Made new relationship");
 
 
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Not able to get Relationships.");
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return allRelationships;
+    }
 
-  public void updateTable(int pId, String tableName, String attributeName, String value) {
+    public void updateTable(int pId, String tableName, String attributeName, String value) {
         String updateSql = String.format("UPDATE %s SET %s =? WHERE pID=?",tableName,attributeName);
         PreparedStatement uStmt = null;
         try {
@@ -528,14 +677,5 @@ public class TheSqlConnection {
         return personExcists;
 
     }
-
-
-
-
-
-
-
-
-
 
 }

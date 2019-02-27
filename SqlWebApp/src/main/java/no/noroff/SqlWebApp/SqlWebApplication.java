@@ -1,5 +1,6 @@
 package no.noroff.SqlWebApp;
 
+import no.noroff.SqlWebApp.sqlQueries.TheSqlConnection;
 import no.noroff.SqlWebApp.models.Person;
 import no.noroff.SqlWebApp.models.PhoneNumber;
 import no.noroff.SqlWebApp.models.Relationship;
@@ -10,50 +11,60 @@ import java.util.ArrayList;
 
 @SpringBootApplication
 public class SqlWebApplication {
-	public static TheSqlConnection conn;
+	public static TheSqlConnection sqlConn;
 
 	public static void main(String[] args) {
-		SpringApplication.run(SqlWebApplication.class, args);
 
 		System.out.println("-------BEFORE");
-		conn = new TheSqlConnection();
-		conn.connect();
-		conn.initAllTables();
+		sqlConn = new TheSqlConnection();
+		sqlConn.connect();
+		sqlConn.initAllTables();
 		System.out.println("++++++++AFTER");
+
+		SpringApplication.run(SqlWebApplication.class, args);
 
 
         // SELECT PERSON TESTING
-        Person person1 = conn.selectPerson(1);
-        Person person2 = conn.selectPerson(2);
-        System.out.println(person1.getName());
-        System.out.println(person2.getName());
+        Person person1 = sqlConn.selectPerson(1);
+        //Person person2 = |.selectPerson(2);
+        System.out.println(person1.getFirstName() + person1.getLastName());
+        //System.out.println(person2.getFirstName() + person2.getLastName());
 
+        /*
 		//SELECT PHONENUMBER TESTING
-		PhoneNumber phoneNumber1 = conn.selectPhoneNumber(1);
+		PhoneNumber phoneNumber1 = sqlConn.selectPhoneNumber(1);
 
 		System.out.println(phoneNumber1.getPhoneNumber());
 
-		Relationship rel = conn.selectRelationship(1);
+		Relationship rel = sqlConn.selectRelationship(1);
 		System.out.printf("Relationship %d:	%s	%s	%s	%s\n",
 				rel.getrID(), rel.getP1Name(), rel.getP2Name(), rel.getP1p2(), rel.getP2p1());
 
-		Relationship rel2 = conn.selectRelationship(2);
+		Relationship rel2 = sqlConn.selectRelationship(2);
 		System.out.printf("Relationship %d:	%s	%s	%s	%s\n",
 				rel2.getrID(), rel2.getP1Name(), rel2.getP2Name(), rel2.getP1p2(), rel2.getP2p1());
 		//System.out.println(phoneNumber1.getPhoneNumber());
 
 		ArrayList<Person> personList = new ArrayList<Person>();
-		personList = conn.selectPersonByName("FirstName","Lilly");
+		personList = sqlConn.selectPersonByName("FirstName","Lilly");
 
 		ArrayList<PhoneNumber> phoneBook = new ArrayList<PhoneNumber>();
-		phoneBook = conn.selectPersonByNumber("12345678");
+		phoneBook = sqlConn.selectAllEqualPhoneNumbers("12345678");
 		System.out.println(phoneBook.get(0).getPhoneNumber());
 
-		Person p = conn.selectPerson(phoneBook.get(0).getpID());
-		System.out.println(p.getName() + " " + phoneBook.get(0).getPhoneNumber());
+		Person p = sqlConn.selectPerson(phoneBook.get(0).getpID());
+		System.out.println(p.getFirstName() + " " + p.getLastName() + " " + phoneBook.get(0).getPhoneNumber());
 
-		boolean check = conn.checkPID(11);
+		boolean check = sqlConn.checkPID(11);
 		System.out.println(check);
 
+
+		ArrayList<Relationship> allRelationships = SqlWebApplication.sqlConn.selectAllRelations();
+
+		for (Relationship relation: allRelationships) {
+			System.out.println(relation.getP1() + relation.getP1Name() + ", " + relation.getP1p2() + " of " +relation.getP2() + relation.getP2Name());
+
+		}
+*/
 	}
 }

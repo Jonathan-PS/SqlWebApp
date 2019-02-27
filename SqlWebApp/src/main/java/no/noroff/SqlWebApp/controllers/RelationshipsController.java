@@ -14,7 +14,7 @@ public class RelationshipsController {
 
         System.out.println("Trying to find relationship: " + rID);
 
-        Relationship relationship = SqlWebApplication.conn.selectRelationship(rID);
+        Relationship relationship = SqlWebApplication.sqlConn.selectRelationship(rID);
 
         return relationship;
 

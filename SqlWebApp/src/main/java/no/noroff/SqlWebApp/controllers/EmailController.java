@@ -14,7 +14,7 @@ public class EmailController {
 
         System.out.println("Trying to find email: " + eID);
 
-        Email email = SqlWebApplication.conn.selectEmail(eID);
+        Email email = SqlWebApplication.sqlConn.selectEmail(eID);
 
         return email;
 

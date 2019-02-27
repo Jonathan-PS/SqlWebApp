@@ -15,7 +15,7 @@ public class PhoneNumberController {
 
         System.out.println("Trying to find phone number: " + pnID);
 
-        PhoneNumber phoneNumber = SqlWebApplication.conn.selectPhoneNumber(pnID);
+        PhoneNumber phoneNumber = SqlWebApplication.sqlConn.selectPhoneNumber(pnID);
 
         return phoneNumber;
 
