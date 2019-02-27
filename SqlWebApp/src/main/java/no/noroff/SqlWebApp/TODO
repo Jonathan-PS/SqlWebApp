@@ -32,7 +32,7 @@ ____________________________________________________
 14:30
 
 *- Store phoneNumbers, emails and relations of a person in Map/HashMap  - in class Person
-- Store p1Name and p2Name in relationship - in class Relationships
+NO- Store p1Name and p2Name in relationship - in class Relationships
 
 - A standard web page when accessing url that don't exist
 - /person should show all the person json objects. x4

@@ -155,14 +155,13 @@ public class TheSqlConnection {
             // FILL TABLE
             for (int i = 0; i < firstName.length; i++) {
                 if (i<4) insertEmails(i+1, EmailCategories.PERSONAL, emails[i]);
-                else insertEmails((i+1)%4, EmailCategories.WORK, emails[i]);
+                else insertEmails((i%4)+1, EmailCategories.WORK, emails[i]);
 
             }
 
         } catch (SQLException E) {
             System.out.println("Emails table creation statement failed. Maybe it already exists.");
         }
-
     }
 
     public void initRelationships() {
@@ -587,6 +586,34 @@ public class TheSqlConnection {
         return allRelationships;
     }
 
+    public ArrayList<Person> selectAllPersons() {
+        ArrayList<Person> personList = new ArrayList<Person>();
+        String sql = "SELECT * FROM Persons";
+        Person person = null;
+
+        try {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                ResultSet rs = pstmt.executeQuery();
+
+                while(rs.next()) {
+                    person = new Person(rs.getInt("pID"),
+                            rs.getString("FirstName"),
+                            rs.getString("LastName"),
+                            rs.getString("HomeAddress"),
+                            rs.getDate("DateOfBirth"));
+                    personList.add(person);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Not able to get Persons.");
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return personList;
+
+    }
     public void updateTable(int pId, String tableName, String attributeName, String value) {
         String updateSql = String.format("UPDATE %s SET %s =? WHERE pID=?",tableName,attributeName);
         PreparedStatement uStmt = null;
@@ -677,5 +704,6 @@ public class TheSqlConnection {
         return personExcists;
 
     }
+
 
 }

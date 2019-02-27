@@ -14,8 +14,8 @@ public class Person {
     private String homeAddress;
     private Date dateOfBirth;
 
-    private Map<String, String> phoneNumbers = new HashMap<>();
-    private Map<String, String> emails = new HashMap<>();
+    private Map<String, String> phoneNumbers = new HashMap<>(); // <PhoneCategory, phoneNumber>
+    private Map<String, String> emails = new HashMap<>(); // <EmailCategory , emailAddress>
     private Map<String, Integer> relations = new HashMap<>();
 
 
