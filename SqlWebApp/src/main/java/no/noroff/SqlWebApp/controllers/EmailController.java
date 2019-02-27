@@ -2,7 +2,6 @@ package no.noroff.SqlWebApp.controllers;
 
 import no.noroff.SqlWebApp.SqlWebApplication;
 import no.noroff.SqlWebApp.models.Email;
-import no.noroff.SqlWebApp.models.Person;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
