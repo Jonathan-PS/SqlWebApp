@@ -52,5 +52,8 @@ public class SqlWebApplication {
 		Person p = conn.selectPerson(phoneBook.get(0).getpID());
 		System.out.println(p.getName() + " " + phoneBook.get(0).getPhoneNumber());
 
+		boolean check = conn.checkPID(11);
+		System.out.println(check);
+
 	}
 }
