@@ -7,10 +7,9 @@ import no.noroff.SqlWebApp.models.Person;
 import no.noroff.SqlWebApp.models.PhoneNumber;
 import no.noroff.SqlWebApp.models.Relationship;
 
-import java.util.ArrayList;
-
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class TheSqlConnection {
     Connection conn = null;
@@ -209,7 +208,7 @@ public class TheSqlConnection {
                 pstmt.setString(1, firstName);
                 pstmt.setString(2, lastName);
                 pstmt.setString(3, homeAddress);
-                pstmt.setObject(4, java.sql.Date.valueOf(dateOfBirth));
+                pstmt.setObject(4, Date.valueOf(dateOfBirth));
                 pstmt.executeUpdate();
                 return 0;
             }

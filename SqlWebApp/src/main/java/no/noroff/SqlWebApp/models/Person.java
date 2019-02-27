@@ -13,7 +13,7 @@ public class Person {
     private Date dateOfBirth;
 
     // TODO: Populate the following maps
-    private Map<String, String> phoneNumberMap = new HashMap<>();
+    private Map<String, String> phoneNumbers = new HashMap<>();
     private Map<String, String> emailMap = new HashMap<>();
 
     public Person(int pID, String firstName, String lastName, String homeAddress, Date dateOfBirth){
@@ -22,6 +22,8 @@ public class Person {
         this.lastName = lastName;
         this.homeAddress = homeAddress;
         this.dateOfBirth = dateOfBirth;
+
+        //phoneNumberMap.put("work", getNumber());
     }
 
 
