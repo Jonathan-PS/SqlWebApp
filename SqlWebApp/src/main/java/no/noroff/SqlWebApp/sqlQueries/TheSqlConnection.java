@@ -325,7 +325,7 @@ public class TheSqlConnection {
     }
 
     public PhoneNumber selectPhoneNumber (int pnID) {
-        String sql = "SELECT * FROM PhoneNumbers WHERE pID = (?)";
+        String sql = "SELECT * FROM PhoneNumbers WHERE pnID = (?)";
         PhoneNumber phoneNumber = null;
 
         try{
@@ -334,13 +334,13 @@ public class TheSqlConnection {
                 pstmt.setInt(1, pnID);
                 ResultSet rs = pstmt.executeQuery();
 
-                phoneNumber = new PhoneNumber(rs.getInt("pID"),
-                        rs.getInt("pnID"),
+                phoneNumber = new PhoneNumber(rs.getInt("pnID"),
+                        rs.getInt("pID"),
                         rs.getString("PhoneCategory"),
                         rs.getString("Number"));
             }
         } catch (SQLException exc) {
-            System.out.println("Phone number (pID=" + pnID + ") SELECT not working.");
+            System.out.println("Phone number (pnID=" + pnID + ") SELECT not working.");
             System.out.println(exc.getMessage());
         }
 
@@ -364,7 +364,7 @@ public class TheSqlConnection {
                         rs.getString("p2p1"));
             }
         } catch (SQLException exc) {
-            System.out.println("Relationship (pID=" + rID + ") SELECT not working.");
+            System.out.println("Relationship (rID=" + rID + ") SELECT not working.");
             System.out.println(exc.getMessage());
         }
 
@@ -463,7 +463,7 @@ public class TheSqlConnection {
         return phoneBook;
     }
 
-    public ArrayList<PhoneNumber> selectPhoneNumberList(int pID) {
+    public ArrayList<PhoneNumber> selectPhoneNumberListBypID(int pID) {
         ArrayList<PhoneNumber> phoneBook = new ArrayList<PhoneNumber>();
 
         String sql = "SELECT * FROM PhoneNumbers WHERE pID = ? ";
@@ -507,8 +507,8 @@ public class TheSqlConnection {
                 ResultSet rs = pstmt.executeQuery();
 
                 while(rs.next()) {
-                    email = new Email(rs.getInt("pID"),
-                            rs.getInt("eID"),
+                    email = new Email(rs.getInt("eID"),
+                            rs.getInt("pID"),
                             rs.getString("EmailCategory"),
                             rs.getString("Email"));
                     emailBook.add(email);
@@ -548,7 +548,6 @@ public class TheSqlConnection {
                     p1p2 = rs1.getString("p1p2");
                     p2p1 = rs1.getString("p2p1");
                     Relationship relation = new Relationship(rID, p1, p2, p1p2, p2p1);
-                    int i =0;
                     allRelations.add(relation);
                 }
                 while(rs2.next()) {
@@ -630,15 +629,35 @@ public class TheSqlConnection {
         return personList;
 
     }
-    public void updateTable(int pId, String tableName, String attributeName, String value) {
-        String updateSql = String.format("UPDATE %s SET %s =? WHERE pID=?",tableName,attributeName);
+    public void updateTable(int id, String tableName, String attributeName, String value) {
+        String idName = "x";
+
+        switch (tableName){
+            case "Persons":
+                idName="pID";
+                break;
+
+            case "Emails":
+                idName="eID";
+                break;
+
+            case "PhoneNumbers":
+                idName="pnID";
+                break;
+
+            case "Relationships":
+                idName="rID";
+                break;
+        }
+
+        String updateSql = String.format("UPDATE %s SET %s =? WHERE %s=?",tableName,attributeName, idName);
         PreparedStatement uStmt = null;
-        if (checkPID(pId)) {
+        if (checkPID(id)) {
             try {
 
                 uStmt = conn.prepareStatement(updateSql);
                 uStmt.setString(1, value);
-                uStmt.setInt(2, pId);
+                uStmt.setInt(2, id);
 
 
                 boolean autoCommit = conn.getAutoCommit();
@@ -654,7 +673,7 @@ public class TheSqlConnection {
                 System.out.println(ex.getMessage());
             }
         } else {
-            System.out.println("The person you are trying to update does not exists. ");
+            System.out.println("The entry you are trying to update does not exists. ");
         }
 
     }

@@ -25,23 +25,35 @@ import java.util.ArrayList;
 @Controller
 public class SearchController {
     UserInput userInput;
-
     private String templateName = "menuTemplate";
-    UserInput userInput;
 
     @GetMapping("/menu")
     public String menu(Model model) {
         model.addAttribute("userInput", new UserInput());
         return templateName;
     }
+    /*@GetMapping("/menu/{search}")
+    public String menu(Model model) {
+        model.addAttribute("userInput", new UserInput());
+        return templateName;
+    }*/
 
-    //@PostMapping("/menu") //use the shorthand
+    @PostMapping("/menu") //use the shorthand
     public String menuResult(@ModelAttribute("userInput") UserInput userInput) {
 
-        PersonController pc = new PersonController();
+        //PersonController pc = new PersonController();
         this.userInput = userInput;
-        pc.personSearch(this.userInput);
-        return "redirect:/menu/list";
+        //pc.personSearch(this.userInput);
+        return "redirect:/menu/output";
+    }
+
+    @GetMapping("/menu/output") //use the shorthand
+    public String re(RedirectAttributes redirectAttributes) {
+        System.out.println("yezzzzzzzzzzzzzzzz");
+        redirectAttributes.addAttribute("value",userInput.getValue());
+        redirectAttributes.addAttribute("attribute", userInput.getAttribute());
+        System.out.println("after value");
+        return "redirect:/menu/{value}/{attribute}";
     }
 }
 

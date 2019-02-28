@@ -7,7 +7,7 @@ public class PhoneNumber {
     private String phoneNumber;
 
     //Constructor
-    public PhoneNumber (int pID, int pnID, String phoneCategory, String phoneNumber) {
+    public PhoneNumber (int pnID, int pID, String phoneCategory, String phoneNumber) {
         this.pID = pID;
         this.pnID= pnID;
         this.phoneCategory = phoneCategory;
