@@ -69,8 +69,8 @@ ___________________________________________________________________
 
 TODO after 27.02
 - Controller
-    - pass variables given by the user to the DB to fetch Person
-    - Pass variables to db to insert new
++    - pass variables given by the user to the DB to fetch Person
+-+    - Pass variables to db to insert new (done in terminal using curl)
         - person
         - phoneNumber
         - emails
@@ -80,3 +80,27 @@ TODO after 27.02
 - DEBUGGGGGGGGG
 - Host on Heroku
 - Links from Person to his Relationships
+
+
+___________________________________________________________________
+
+TODO after 28.02
+- curl to update any table value
+- curl to delete by pID in all tables
+
+- in JSON Person object on web, have a link to each relationship
+
+- web page to insert new person
+- web page to insert new phonenumber
+- web page to insert new email
+- web page to insert new relations
+- web page to update any table value
+- web page to delete by pID in all tables
+
+- MAIN web page with links to all other pages
+
+
+-- HEROKU LIVE APP
+-- Connect to postgres on Heroku
+
+- write README.md
