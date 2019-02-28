@@ -26,10 +26,13 @@ public class TheSqlConnection {
             LocalDate.of(2001,03,30), LocalDate.of(1920,10,2),
             LocalDate.of(1999,04,12), LocalDate.of(1954,06,13)};
     String[] phoneNumbers = {"12345678", "23456789", "34567890", "45678901", "56789012", "67890123", "78901234", "89012345", "90123456", "12345678"};
+    String[] phoneNumbersWork = {"22345678", "22456789", "22567890", "22678901", "22789012", "22890123", "22901234", "22012345", "22123456", "22345678"};
     String[] emails = new String[10];
+    String[] emailsWork = new String[10];
     {
         for (int i = 0; i < firstName.length; i++) {
             emails[i] = firstName[i] + "." + lastName[i] + "@craigmail.com";
+            emailsWork[i] = firstName[i] + "." + lastName[i] + "@workplace.com";
         }
     }
 
@@ -122,9 +125,12 @@ public class TheSqlConnection {
             System.out.println("Table PhoneNumbers created");
 
             // FILL TABLE
+            int p=1;
             for (int i = 0; i < firstName.length; i++) {
-                if (i<7) insertPhoneNumber(i+1, PhoneCategories.MOBILE, phoneNumbers[i]);
-                else insertPhoneNumber((i+1)%7, PhoneCategories.WORK, phoneNumbers[i]);
+                insertPhoneNumber(p, PhoneCategories.MOBILE, phoneNumbers[i]);
+                insertPhoneNumber(p, PhoneCategories.WORK, phoneNumbersWork[i]);
+                p++;
+
             }
 
 
@@ -154,9 +160,11 @@ public class TheSqlConnection {
             System.out.println("Table Emails created");
 
             // FILL TABLE
+            int p = 1;
             for (int i = 0; i < firstName.length; i++) {
-                if (i<4) insertEmails(i+1, EmailCategories.PERSONAL, emails[i]);
-                else insertEmails((i%4)+1, EmailCategories.WORK, emails[i]);
+                insertEmails(p, EmailCategories.PERSONAL, emails[i]);
+                insertEmails(p, EmailCategories.WORK, emailsWork[i]);
+                p++;
 
             }
 

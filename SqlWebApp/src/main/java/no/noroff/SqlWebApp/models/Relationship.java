@@ -10,7 +10,6 @@ public class Relationship {
     private String p1p2;
     private String p2p1;
 
-
     //Constructor
     public Relationship(int rID, int p1, int p2, String p1p2, String p2p1) {
         this.rID = rID;
@@ -18,7 +17,6 @@ public class Relationship {
         this.p2 = p2;
         this.p1p2 = p1p2;
         this.p2p1 = p2p1;
-
     }
 
     /* GETTERS */
