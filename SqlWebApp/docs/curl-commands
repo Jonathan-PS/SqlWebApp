@@ -1,0 +1,28 @@
+# List all persons
+curl -i -H "Content-Type: application/json" \
+-X GET localhost:8080/persons
+
+# List one person (id = 1)
+curl -i -H "Content-Type: application/json" \
+-X GET localhost:8080/persons/1
+
+# Insert new person
+curl -i -H "Content-Type: application/json" -X POST -d '{
+   "firstName": "Jonathan",
+   "lastName": "Stang",
+   "homeAddress": "Sogn Studentby",
+   "dateOfBirth": "1993-05-13"
+}' localhost:8080/persons
+
+
+# Change one person
+curl -i -H "Content-Type: application/json" -X POST -d '{
+        "name": "Little Lucy",
+        "statement": "I vote for the future!"
+}' localhost:8080/pledges/2
+
+
+curl -i -H "Content-Type: application/json" -X POST -d {
+"value": "",
+"attribute": ""
+}  localhost:8080/pledges/2

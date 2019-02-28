@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RelationshipsController {
 
+
     @GetMapping("/relationship/{rID}")
     public Relationship relationshipGet(@PathVariable int rID) {
 

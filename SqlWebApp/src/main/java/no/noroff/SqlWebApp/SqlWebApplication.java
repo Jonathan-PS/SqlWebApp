@@ -4,10 +4,14 @@ import no.noroff.SqlWebApp.sqlQueries.TheSqlConnection;
 import no.noroff.SqlWebApp.models.Person;
 import no.noroff.SqlWebApp.models.PhoneNumber;
 import no.noroff.SqlWebApp.models.Relationship;
+import org.apache.tomcat.jni.Local;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 
 @SpringBootApplication
 public class SqlWebApplication {
@@ -23,19 +27,23 @@ public class SqlWebApplication {
 
 		SpringApplication.run(SqlWebApplication.class, args);
 
+/*
+		Date myDate = new Date(2014,06,7);
+		LocalDate myLocalDate = myDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		System.out.println(myLocalDate.toString());
+*/
+		// SELECT PERSON TESTING
 
-        // SELECT PERSON TESTING
-        Person person1 = sqlConn.selectPerson(1);
-        //Person person2 = |.selectPerson(2);
-        System.out.println(person1.getFirstName() + person1.getLastName());
+		 //Person person2 = |.selectPerson(2);
+  //      System.out.println(person1.getFirstName() + person1.getLastName());
         //System.out.println(person2.getFirstName() + person2.getLastName());
 
 		/*Test update email*/
-		sqlConn.updateTable(9, "Emails", "Email", "trude@craigmail.com");
-		System.out.println(sqlConn.selectEmailList(9).get(0).getEmail());
+//		sqlConn.updateTable(9, "Emails", "Email", "trude@craigmail.com");
+//		System.out.println(sqlConn.selectEmailList(9).get(0).getEmail());
 
 		/*Test delete*/
-		sqlConn.delete(10);
+//		sqlConn.delete(10);
 
         /*
 		//SELECT PHONENUMBER TESTING

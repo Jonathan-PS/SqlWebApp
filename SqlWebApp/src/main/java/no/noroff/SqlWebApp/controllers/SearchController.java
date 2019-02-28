@@ -16,11 +16,10 @@ public class SearchController {
         return templateName;
     }
 
-    @PostMapping("/menu") //use the shorthand
+    //@PostMapping("/menu") //use the shorthand
     public String menuResult(@ModelAttribute("userInput") UserInput userInput) {
            System.out.println("value: " + userInput.getValue());
         System.out.println("dropdown: " + userInput.getAttribute());
-           return "menuTemplate";
-
+           return "persons/1";
     }
 }

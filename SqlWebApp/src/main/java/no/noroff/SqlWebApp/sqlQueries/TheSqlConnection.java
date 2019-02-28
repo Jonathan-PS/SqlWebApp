@@ -9,6 +9,7 @@ import no.noroff.SqlWebApp.models.Relationship;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 public class TheSqlConnection {
@@ -219,6 +220,13 @@ public class TheSqlConnection {
             return 1;
         }
         return -1;
+    }
+
+    public void insertPerson(Person person) {
+        insertPerson(person.getFirstName(),
+                    person.getLastName(),
+                    person.getHomeAddress(),
+                    person.getDateOfBirth().toLocalDate());
     }
 
     public int insertPhoneNumber(int pID, PhoneCategories pCategory, String phoneNumber) {
