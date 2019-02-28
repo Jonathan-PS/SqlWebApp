@@ -24,19 +24,12 @@ public class SearchController {
         return templateName;
     }
 
-    @PostMapping("/menu") //use the shorthand
+    //@PostMapping("/menu") //use the shorthand
     public String menuResult(@ModelAttribute("userInput") UserInput userInput) {
+
         PersonController pc = new PersonController();
         this.userInput = userInput;
         pc.personSearch(this.userInput);
         return "redirect:/menu/list";
     }
-
-    /*@GetMapping("/menu/output") //use the shorthand
-    public ArrayList<Person> menuResult() {
-        ArrayList<Person> personList = new ArrayList<Person>();
-        //personList = SqlWebApplication.sqlConn.selectPersonByName(userInput.getAttribute(), userInput.getValue());
-        return personList;
-    }*/
-
 }

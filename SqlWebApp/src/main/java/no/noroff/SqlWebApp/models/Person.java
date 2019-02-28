@@ -8,7 +8,7 @@ import java.util.Map;
 import static no.noroff.SqlWebApp.SqlWebApplication.sqlConn;
 
 public class Person {
-    private final int pID; // Never to be changed, thus final.
+    private int pID; // Never to be changed, thus final.
     private String firstName;
     private String lastName;
     private String homeAddress;
@@ -18,6 +18,19 @@ public class Person {
     private Map<String, String> emails = new HashMap<>(); // <EmailCategory , emailAddress>
     private Map<String, Integer> relations = new HashMap<>();
 
+    public Person(){
+    }
+
+    public Person(String firstName, String lastName, String homeAddress, Date dateOfBirth){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.homeAddress = homeAddress;
+        this.dateOfBirth = dateOfBirth;
+
+        setEmails();
+        setPhoneNumbers();
+        theRelations();
+    }
 
     public Person(int pID, String firstName, String lastName, String homeAddress, Date dateOfBirth){
         this.pID = pID;
@@ -32,43 +45,68 @@ public class Person {
     }
 
 
-    /* GETTERS */
     public int getpID() {
         return pID;
     }
+
+    public void setpID(int pID) {
+        this.pID = pID;
+    }
+
     public String getFirstName() {
         return firstName;
     }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getLastName() {
         return lastName;
     }
-    public String getHomeAddress() {return homeAddress;}
-    public Map<String, String> getEmails() {
-        return emails;
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
+
+    public String getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(String homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
     public Map<String, String> getPhoneNumbers() {
         return phoneNumbers;
+    }
+
+    public void setPhoneNumbers(Map<String, String> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
+    }
+
+    public Map<String, String> getEmails() {
+        return emails;
+    }
+
+    public void setEmails(Map<String, String> emails) {
+        this.emails = emails;
     }
 
     public Map<String, Integer> getRelations() {
         return relations;
     }
 
-    /* SETTERS */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    public void setHomeAddress(String homeAddress) {
-        this.homeAddress = homeAddress;
-    }
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setRelations(Map<String, Integer> relations) {
+        this.relations = relations;
     }
 
     private void setEmails() {
