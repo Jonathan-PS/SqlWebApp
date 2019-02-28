@@ -241,18 +241,23 @@ public class TheSqlConnection {
         // Inserts given phone number into table PhoneNumbers
         // returns pnID
         String sql = "INSERT INTO PhoneNumbers(pID, PhoneCategory, Number) VALUES(?,?,?)";
-        try {
-            if (conn != null) {
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1, pID);
-                pstmt.setString(2, pCategory.toString().toLowerCase());
-                pstmt.setString(3, phoneNumber);
-                pstmt.executeUpdate();
-                return 0;
+
+        if (checkPID(pID)) {
+            try {
+                if (conn != null) {
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+                    pstmt.setInt(1, pID);
+                    pstmt.setString(2, pCategory.toString().toLowerCase());
+                    pstmt.setString(3, phoneNumber);
+                    pstmt.executeUpdate();
+                    return 0;
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                return 1;
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return 1;
+        } else {
+            System.out.printf("The person (pID = %s) you are trying to insert phone number for does not exist.", pID);
         }
         return -1;
     }
@@ -262,18 +267,24 @@ public class TheSqlConnection {
         // Inserts given phone number into table PhoneNumbers
         // returns pnID
         String sql = "INSERT INTO Emails(pID, EmailCategory, Email) VALUES(?,?,?)";
-        try {
-            if (conn != null) {
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1, pID);
-                pstmt.setString(2, emailCategory.toString().toLowerCase());
-                pstmt.setString(3, email);
-                pstmt.executeUpdate();
-                return 0;
+
+        if (checkPID(pID)) {
+
+            try {
+                if (conn != null) {
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+                    pstmt.setInt(1, pID);
+                    pstmt.setString(2, emailCategory.toString().toLowerCase());
+                    pstmt.setString(3, email);
+                    pstmt.executeUpdate();
+                    return 0;
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                return 1;
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return 1;
+        } else {
+            System.out.printf("The person (pID = %s) you are trying to insert email for does not exist.", pID);
         }
         return -1;
     }
@@ -281,19 +292,24 @@ public class TheSqlConnection {
     // INSERT INTO RELATIONSHIPS
     public int insertRelationship(int p1, int p2, String rel1, String rel2) {
         String sql = "INSERT INTO Relationships(p1, p2, p1p2, p2p1) VALUES(?,?,?,?)";
-        try {
-            if (conn != null) {
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1, p1);
-                pstmt.setInt(2, p2);
-                pstmt.setString(3, rel1);
-                pstmt.setString(4, rel2);
-                pstmt.executeUpdate();
-                return 0;
+
+        if (checkPID(p1) && checkPID(p2)) {
+            try {
+                if (conn != null) {
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+                    pstmt.setInt(1, p1);
+                    pstmt.setInt(2, p2);
+                    pstmt.setString(3, rel1);
+                    pstmt.setString(4, rel2);
+                    pstmt.executeUpdate();
+                    return 0;
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                return 1;
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return 1;
+        }else {
+            System.out.printf("Either person p1 = %s or person p2 = %s does not exist, so cannot form relationship.", p1, p2);
         }
         return -1;
     }
@@ -652,29 +668,28 @@ public class TheSqlConnection {
 
         String updateSql = String.format("UPDATE %s SET %s =? WHERE %s=?",tableName,attributeName, idName);
         PreparedStatement uStmt = null;
-        if (checkPID(id)) {
+
+        try {
+
+            uStmt = conn.prepareStatement(updateSql);
+            uStmt.setString(1, value);
+            uStmt.setInt(2, id);
+
+
+            boolean autoCommit = conn.getAutoCommit();
+
             try {
-
-                uStmt = conn.prepareStatement(updateSql);
-                uStmt.setString(1, value);
-                uStmt.setInt(2, id);
-
-
-                boolean autoCommit = conn.getAutoCommit();
-                try {
-                    conn.setAutoCommit(false);
-                    uStmt.executeUpdate();
-                } catch (SQLException exc) {
-                    conn.rollback();
-                } finally {
-                    conn.setAutoCommit(autoCommit);
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
+                conn.setAutoCommit(false);
+                uStmt.executeUpdate();
+            } catch (SQLException exc) {
+                conn.rollback();
+            } finally {
+                conn.setAutoCommit(autoCommit);
             }
-        } else {
-            System.out.println("The entry you are trying to update does not exists. ");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
+
 
     }
 
