@@ -27,7 +27,6 @@ public class SearchController {
     UserInput userInput;
 
     private String templateName = "menuTemplate";
-    UserInput userInput;
 
     @GetMapping("/menu")
     public String menu(Model model) {
