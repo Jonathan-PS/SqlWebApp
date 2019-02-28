@@ -35,6 +35,10 @@ public class SqlWebApplication {
 		// SELECT PERSON TESTING
 
 		 //Person person2 = |.selectPerson(2);
+
+        // SELECT PERSON TESTING
+    //    Person person1 = sqlConn.selectPerson(1);
+        //Person person2 = |.selectPerson(2);
   //      System.out.println(person1.getFirstName() + person1.getLastName());
         //System.out.println(person2.getFirstName() + person2.getLastName());
 
@@ -44,6 +48,7 @@ public class SqlWebApplication {
 
 		/*Test delete*/
 //		sqlConn.delete(10);
+
 
         /*
 		//SELECT PHONENUMBER TESTING
