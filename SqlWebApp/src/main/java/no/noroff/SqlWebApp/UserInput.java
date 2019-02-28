@@ -2,7 +2,7 @@ package no.noroff.SqlWebApp;
 
 public class UserInput {
     String value;
-    String attribute;
+     String attribute;
     String number;
 
     public void setValue(String v){value = v;}

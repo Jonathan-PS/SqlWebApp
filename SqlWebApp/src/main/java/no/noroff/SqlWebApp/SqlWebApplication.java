@@ -25,17 +25,18 @@ public class SqlWebApplication {
 
 
         // SELECT PERSON TESTING
-        Person person1 = sqlConn.selectPerson(1);
+    //    Person person1 = sqlConn.selectPerson(1);
         //Person person2 = |.selectPerson(2);
-        System.out.println(person1.getFirstName() + person1.getLastName());
+  //      System.out.println(person1.getFirstName() + person1.getLastName());
         //System.out.println(person2.getFirstName() + person2.getLastName());
 
 		/*Test update email*/
-		sqlConn.updateTable(9, "Emails", "Email", "trude@craigmail.com");
-		System.out.println(sqlConn.selectEmailList(9).get(0).getEmail());
+//		sqlConn.updateTable(9, "Emails", "Email", "trude@craigmail.com");
+//		System.out.println(sqlConn.selectEmailList(9).get(0).getEmail());
 
 		/*Test delete*/
-		sqlConn.delete(10);
+//		sqlConn.delete(10);
+
 
         /*
 		//SELECT PHONENUMBER TESTING
