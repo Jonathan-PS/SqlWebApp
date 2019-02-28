@@ -49,10 +49,8 @@ public class SearchController {
 
     @GetMapping("/menu/output") //use the shorthand
     public String re(RedirectAttributes redirectAttributes) {
-        System.out.println("yezzzzzzzzzzzzzzzz");
         redirectAttributes.addAttribute("value",userInput.getValue());
         redirectAttributes.addAttribute("attribute", userInput.getAttribute());
-        System.out.println("after value");
         return "redirect:/menu/{value}/{attribute}";
     }
 }

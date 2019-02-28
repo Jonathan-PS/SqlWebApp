@@ -32,12 +32,9 @@ public class PersonController {
         } else if (a.equals("PhoneNumber")) {
             ArrayList<PhoneNumber> phoneList = SqlWebApplication.sqlConn.selectAllEqualPhoneNumbers(v);
             for (PhoneNumber phoneNumber: phoneList) {
-                System.out.println(phoneNumber.getpID());
                 personList.add(SqlWebApplication.sqlConn.selectPerson(phoneNumber.getpID()));
             }
         }
-        System.out.println("attribute" + a);
-        System.out.println("value " + v);
         return personList;
 
     }
