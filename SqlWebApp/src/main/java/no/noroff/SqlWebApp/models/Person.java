@@ -117,7 +117,7 @@ public class Person {
     }
 
     private void setPhoneNumbers() {
-        ArrayList<PhoneNumber> phoneNumberList = sqlConn.selectPhoneNumberList(pID);
+        ArrayList<PhoneNumber> phoneNumberList = sqlConn.selectPhoneNumberListBypID(pID);
         for (PhoneNumber number: phoneNumberList) {
             phoneNumbers.put(number.getPhoneCategory(), number.getPhoneNumber());
         }
