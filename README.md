@@ -1,7 +1,6 @@
 
-+++++++++++++++++++++++++++++++++++++++++++++++
 https://github.com/Jonathan-PS/SqlWebApp
-+++++++++++++++++++++++++++++++++++++++++++++++
+
 
 AUTHORS
 Thomas Warren
