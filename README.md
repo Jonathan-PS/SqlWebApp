@@ -3,13 +3,22 @@ _AUTHORS: Thomas Warren, Jonathan Stang, and Trude Hjelmeland_
 
 https://github.com/Jonathan-PS/SqlWebApp
 
+### How to run
+Import project into intelij
 
-Intellij Project using Spring Boot and Gradle
+Run main method inside SqlWebApplication.java
 
-After initialization and with active connection;
+This will make a .sqlite file that is processed during run-time
+
+### How to use API
+Access to Database Frontpage: http://localhost:8080/
+
+Curl commands in
+
+here you find links to all the functionality for the database accessible online
+
 
 *the database have a Frontpage found at http://localhost:8080/
-**here you find links to all the functionality for the database accessible online
 
 CRUD
 To preform various Create, Read, Update and Delete functions through the terminal window;
