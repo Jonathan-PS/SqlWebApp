@@ -127,8 +127,8 @@ public class TheSqlConnection {
             // FILL TABLE
             int p=1;
             for (int i = 0; i < firstName.length; i++) {
-                insertPhoneNumber(p, PhoneCategories.MOBILE, phoneNumbers[i]);
-                insertPhoneNumber(p, PhoneCategories.WORK, phoneNumbersWork[i]);
+                insertPhoneNumber(p, PhoneCategories.MOBILE.toString(), phoneNumbers[i]);
+                insertPhoneNumber(p, PhoneCategories.WORK.toString(), phoneNumbersWork[i]);
                 p++;
 
             }
@@ -162,8 +162,8 @@ public class TheSqlConnection {
             // FILL TABLE
             int p = 1;
             for (int i = 0; i < firstName.length; i++) {
-                insertEmails(p, EmailCategories.PERSONAL, emails[i]);
-                insertEmails(p, EmailCategories.WORK, emailsWork[i]);
+                insertEmails(p, EmailCategories.PERSONAL.toString(), emails[i]);
+                insertEmails(p, EmailCategories.WORK.toString(), emailsWork[i]);
                 p++;
 
             }
@@ -237,7 +237,7 @@ public class TheSqlConnection {
                     person.getDateOfBirth().toLocalDate());
     }
 
-    public int insertPhoneNumber(int pID, PhoneCategories pCategory, String phoneNumber) {
+    public int insertPhoneNumber(int pID, String pCategory, String phoneNumber) {
         // Inserts given phone number into table PhoneNumbers
         // returns pnID
         String sql = "INSERT INTO PhoneNumbers(pID, PhoneCategory, Number) VALUES(?,?,?)";
@@ -247,7 +247,7 @@ public class TheSqlConnection {
                 if (conn != null) {
                     PreparedStatement pstmt = conn.prepareStatement(sql);
                     pstmt.setInt(1, pID);
-                    pstmt.setString(2, pCategory.toString().toLowerCase());
+                    pstmt.setString(2, pCategory.toLowerCase());
                     pstmt.setString(3, phoneNumber);
                     pstmt.executeUpdate();
                     return 0;
@@ -262,8 +262,15 @@ public class TheSqlConnection {
         return -1;
     }
 
+
+    public void insertPhoneNumber(PhoneNumber phoneNumber) {
+        insertPhoneNumber(phoneNumber.getpID(),
+                        phoneNumber.getPhoneCategory(),
+                        phoneNumber.getPhoneNumber());
+    }
+
     // INSERT INTO EMAILS
-    public int insertEmails(int pID, EmailCategories emailCategory, String email) {
+    public int insertEmails(int pID, String emailCategory, String email) {
         // Inserts given phone number into table PhoneNumbers
         // returns pnID
         String sql = "INSERT INTO Emails(pID, EmailCategory, Email) VALUES(?,?,?)";
@@ -274,7 +281,7 @@ public class TheSqlConnection {
                 if (conn != null) {
                     PreparedStatement pstmt = conn.prepareStatement(sql);
                     pstmt.setInt(1, pID);
-                    pstmt.setString(2, emailCategory.toString().toLowerCase());
+                    pstmt.setString(2, emailCategory.toLowerCase());
                     pstmt.setString(3, email);
                     pstmt.executeUpdate();
                     return 0;
@@ -288,6 +295,14 @@ public class TheSqlConnection {
         }
         return -1;
     }
+
+
+    public void insertEmails(Email email) {
+        insertEmails(email.getpID(),
+                email.getEmailCategory(),
+                email.getEmail());
+    }
+
 
     // INSERT INTO RELATIONSHIPS
     public int insertRelationship(int p1, int p2, String rel1, String rel2) {
@@ -312,6 +327,14 @@ public class TheSqlConnection {
             System.out.printf("Either person p1 = %s or person p2 = %s does not exist, so cannot form relationship.", p1, p2);
         }
         return -1;
+    }
+
+
+    public void insertRelationship(Relationship relationship) {
+        insertRelationship(relationship.getP1(),
+                        relationship.getP2(),
+                        relationship.getP1p2(),
+                        relationship.getP2p1());
     }
 
 
@@ -715,18 +738,23 @@ public class TheSqlConnection {
                 // set the corresponding param
                 pstmt1.setInt(1, id);
 
+                System.out.println("deleted from Emails");
+
                 PreparedStatement pstmt2 = conn.prepareStatement(sql2);
                 // set the corresponding param
                 pstmt2.setInt(1, id);
+                System.out.println("deleted from PhoneNumbers");
 
                 PreparedStatement pstmt3 = conn.prepareStatement(sql3);
                 // set the corresponding param
                 pstmt3.setInt(1, id);
                 pstmt3.setInt(2, id);
+                System.out.println("deleted from Relationships");
 
                 PreparedStatement pstmt4 = conn.prepareStatement(sql4);
                 // set the corresponding param
                 pstmt4.setInt(1, id);
+                System.out.println("deleted from Persons");
 
                 boolean autoCommit = conn.getAutoCommit();
                 try {

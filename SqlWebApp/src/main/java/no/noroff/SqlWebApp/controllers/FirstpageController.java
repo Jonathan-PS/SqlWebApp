@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class FirstpageController {
     String templateName = "firstpageTemplate";
     @GetMapping("/")
-    public String menu(Model model) {
+    public String firstPage(Model model) {
         model.addAttribute("userInput", new UserInput());
         return templateName;
     }

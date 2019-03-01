@@ -1,10 +1,19 @@
 package no.noroff.SqlWebApp.models;
 
 public class Email {
-    private final int eID;
-    private final int pID;
+    private int eID;
+    private int pID;
     private String emailCategory;
     private String email;
+
+    public Email() {
+    }
+
+    public Email(int pID, String emailCategory, String email) {
+        this.pID = pID;
+        this.emailCategory = emailCategory;
+        this.email = email;
+    }
 
     //Constructor
     public Email (int eID, int pID, String emailCategory, String email) {

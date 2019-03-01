@@ -15,17 +15,13 @@ public class PersonController {
 
     @GetMapping("/persons")
     public ArrayList<Person> personsGet() {
-
         System.out.println("Trying to find person: ");
-
         ArrayList<Person> personList = SqlWebApplication.sqlConn.selectAllPersons();
-
         return personList;
     }
 
     @GetMapping("/menu/{value}/{attribute}")
     public ArrayList<Person> personSearch(@PathVariable("value") String v, @PathVariable("attribute") String a ) {
-
         ArrayList<Person> personList = new ArrayList<>();
         if (a.equals("FirstName")|| a.equals("LastName")) {
             personList = SqlWebApplication.sqlConn.selectPersonByName(a,v);
@@ -57,4 +53,4 @@ public class PersonController {
         SqlWebApplication.sqlConn.insertPerson(person);
         return person;
     }
-    }
+}
