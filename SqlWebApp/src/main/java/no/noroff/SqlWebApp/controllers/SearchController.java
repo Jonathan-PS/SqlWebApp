@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 @Controller
+@SessionAttributes("userInput")
 public class SearchController {
     UserInput userInput;
     private String templateName = "menuTemplate";

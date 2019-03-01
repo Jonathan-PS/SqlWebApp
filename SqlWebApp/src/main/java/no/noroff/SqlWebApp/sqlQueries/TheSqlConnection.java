@@ -645,7 +645,7 @@ public class TheSqlConnection {
         return personList;
 
     }
-    public void updateTable(int id, String tableName, String attributeName, String value) {
+    public void updateTable(String tableName, long id, String attributeName,  String value) {
         String idName = "x";
 
         switch (tableName){
@@ -666,6 +666,7 @@ public class TheSqlConnection {
                 break;
         }
 
+        // System.out.printf(tableName +" "+ id +" "+ idName +" "+ attributeName +" "+ value);
         String updateSql = String.format("UPDATE %s SET %s =? WHERE %s=?",tableName,attributeName, idName);
         PreparedStatement uStmt = null;
 
@@ -673,7 +674,7 @@ public class TheSqlConnection {
 
             uStmt = conn.prepareStatement(updateSql);
             uStmt.setString(1, value);
-            uStmt.setInt(2, id);
+            uStmt.setLong(2, id);
 
 
             boolean autoCommit = conn.getAutoCommit();
@@ -687,7 +688,8 @@ public class TheSqlConnection {
                 conn.setAutoCommit(autoCommit);
             }
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            System.out.print(ex.getMessage());
+            System.out.println("\tUpdate() denied");
         }
 
 

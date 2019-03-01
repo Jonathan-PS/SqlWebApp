@@ -13,24 +13,27 @@ public class PhoneNumber {
         this.phoneCategory = phoneCategory;
         this.phoneNumber = phoneNumber;
     }
-    /* GETTERS */
+
     public int getpID() {
         return pID;
     }
-    public int getPnID () {
-        return(pnID);
+
+    public int getPnID() {
+        return pnID;
     }
-    public String getPhoneNumber() {
-        return (phoneNumber);
-    }
+
     public String getPhoneCategory() {
         return phoneCategory;
     }
 
-    /* SETTERS */
     public void setPhoneCategory(String phoneCategory) {
         this.phoneCategory = phoneCategory;
     }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }

@@ -17,12 +17,22 @@ curl -i -H "Content-Type: application/json" -X POST -d '{
 
 # Change one person
 curl -i -H "Content-Type: application/json" -X POST -d '{
-        "name": "Little Lucy",
-        "statement": "I vote for the future!"
-}' localhost:8080/pledges/2
+        "id": 12,
+        "tableName": "Persons",
+        "attributeName": "FirstName",
+        "value": "Arne-Bjarne"
+}' localhost:8080/update
 
 
-curl -i -H "Content-Type: application/json" -X POST -d {
-"value": "",
-"attribute": ""
-}  localhost:8080/pledges/2
+##### NUMBERS ######
+# List one phone number (id = 1)
+curl -i -H "Content-Type: application/json" \
+-X GET localhost:8080/phonenumber/1
+
+# Change one PhoneNumber
+curl -i -H "Content-Type: application/json" -X POST -d '{
+        "id": 1,
+        "tableName": "PhoneNumbers",
+        "attributeName": "PhoneCategory",
+        "value": "mobile"
+}' localhost:8080/update
