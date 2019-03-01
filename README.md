@@ -11,19 +11,14 @@ Run main method inside SqlWebApplication.java
 This will make a .sqlite file that is processed during run-time
 
 ### How to use API
-Access to Database Frontpage: http://localhost:8080/
-
-Curl commands in
-
-here you find links to all the functionality for the database accessible online
+Access to Database Frontpage: http://localhost:8080/. here you find links to all the functionality for the database accessible online
 
 
-*the database have a Frontpage found at http://localhost:8080/
+###### CRUD
+_docs/curl-commands.txt_
 
-CRUD
-To preform various Create, Read, Update and Delete functions through the terminal window;
-USE curl notation commands.
-All relevant curl commands are to be found in the projects docs folder in the curl-command file.
+Use these curl commands in the terminal for various CREATE, SELECT, and UPDATE queries to the SQL database,.
+
 
 Please enjoy!!
 
