@@ -16,6 +16,13 @@ public class UserUpdateInput {
         this.value = value;
     }
 
+    public UserUpdateInput(long id, String tableName, String attributeName, String value) {
+        this.id = id;
+        this.tableName = tableName;
+        this.attributeName = attributeName;
+        this.value = value;
+    }
+
     public long getId() {
         return id;
     }

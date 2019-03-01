@@ -2,9 +2,9 @@ package no.noroff.SqlWebApp.controllers;
 
 import no.noroff.SqlWebApp.SqlWebApplication;
 import no.noroff.SqlWebApp.models.Email;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import no.noroff.SqlWebApp.models.PhoneNumber;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class EmailController {
@@ -19,4 +19,15 @@ public class EmailController {
         return email;
 
     }
+
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/email")
+    public Email insertNewEmail(@RequestBody Email email) {
+        System.out.println("phoneNumber" + email.getEmail() + "added");
+        System.out.println(email.getEmailCategory());
+        SqlWebApplication.sqlConn.insertEmails(email);
+        return email;
+    }
+
 }
