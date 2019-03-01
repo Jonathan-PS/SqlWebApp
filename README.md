@@ -4,7 +4,7 @@ _AUTHORS: Thomas Warren, Jonathan Stang, and Trude Hjelmeland_
 https://github.com/Jonathan-PS/SqlWebApp
 
 ### How to run
-Import project into intelij
+Import project into intellij
 
 Run main method inside SqlWebApplication.java
 
