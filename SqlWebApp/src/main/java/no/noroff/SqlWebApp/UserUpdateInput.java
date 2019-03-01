@@ -9,9 +9,9 @@ public class UserUpdateInput {
     public UserUpdateInput() {
     }
 
-    public UserUpdateInput(long id, String tableName, String attributeName, String value) {
+    public UserUpdateInput(long id, String attributeName, String value) {
         this.id = id;
-        this.tableName = tableName;
+        this.tableName = "Persons";
         this.attributeName = attributeName;
         this.value = value;
     }
@@ -26,10 +26,6 @@ public class UserUpdateInput {
 
     public String getTableName() {
         return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
     }
 
     public String getAttributeName() {
