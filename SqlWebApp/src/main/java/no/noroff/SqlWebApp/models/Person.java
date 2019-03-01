@@ -16,7 +16,7 @@ public class Person {
 
     private Map<String, String> phoneNumbers = new HashMap<>(); // <PhoneCategory, phoneNumber>
     private Map<String, String> emails = new HashMap<>(); // <EmailCategory , emailAddress>
-    private Map<String, Integer> relations = new HashMap<>();
+    private Map<String, String> relations = new HashMap<>();
 
     public Person(){
     }
@@ -101,11 +101,11 @@ public class Person {
         this.emails = emails;
     }
 
-    public Map<String, Integer> getRelations() {
+    public Map<String, String> getRelations() {
         return relations;
     }
 
-    public void setRelations(Map<String, Integer> relations) {
+    public void setRelations(Map<String, String> relations) {
         this.relations = relations;
     }
 
@@ -129,14 +129,11 @@ public class Person {
         for (Relationship relation : allRelationships) {
             if (pID == relation.getP1()) {
                 relations.put(relation.getP1p2(),
-                        relation.getP2());
+                        "http://localhost:8080/persons/" + relation.getP2());
             } else if (pID == relation.getP2()) {
                 relations.put(relation.getP2p1(),
-                        relation.getP1());
-
+                        "http://localhost:8080/persons/" + relation.getP1());
             }
         }
-
     }
-
 }

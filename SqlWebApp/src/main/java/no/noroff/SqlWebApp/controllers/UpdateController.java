@@ -29,6 +29,7 @@ public class UpdateController {
         this.userUpdateInput = userUpdateInput;
         System.out.println("You are trying to update id: " + userUpdateInput.getId());
 
+        System.out.println(userUpdateInput.getAttributeName());
         SqlWebApplication.sqlConn.updateTable("Persons", userUpdateInput.getId(), userUpdateInput.getAttributeName(), userUpdateInput.getValue());
 
         re.addAttribute("pid", userUpdateInput.getId());

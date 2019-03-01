@@ -645,6 +645,7 @@ public class TheSqlConnection {
         return personList;
 
     }
+
     public void updateTable(String tableName, long id, String attributeName,  String value) {
         String idName = "x";
 
@@ -673,7 +674,11 @@ public class TheSqlConnection {
         try {
 
             uStmt = conn.prepareStatement(updateSql);
-            uStmt.setString(1, value);
+            if (attributeName.equals("DateOfBirth")) {
+                uStmt.setDate(1,  Date.valueOf(LocalDate.parse(value)));
+            } else {
+                uStmt.setString(1, value);
+            }
             uStmt.setLong(2, id);
 
 
