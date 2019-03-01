@@ -1,13 +1,11 @@
 package no.noroff.SqlWebApp.controllers;
 
-import no.noroff.SqlWebApp.DeleteInput;
 import no.noroff.SqlWebApp.SqlWebApplication;
-import no.noroff.SqlWebApp.UserInput;
 import no.noroff.SqlWebApp.UserUpdateInput;
 import no.noroff.SqlWebApp.models.Email;
 import no.noroff.SqlWebApp.models.Person;
-import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +48,5 @@ public class UpdateController {
                                         userUpdateInput.getValue());
 
     }
-
-
 
 }
