@@ -14,8 +14,9 @@ This will make a .sqlite file that is processed during run-time
 Access to Database Frontpage: http://localhost:8080/. here you find links to all the functionality for the database accessible online
 
 
-###### CRUD
-_docs/curl-commands.txt_
+##### CRUD
+
+_SqlWebApp/SqlWebApp/docs/curl-commands_      
 
 Use these curl commands in the terminal for various CREATE, SELECT, and UPDATE queries to the SQL database,.
 
