@@ -18,7 +18,7 @@ Access to Database Frontpage: http://localhost:8080/. here you find links to all
 
 _SqlWebApp/SqlWebApp/docs/curl-commands_      
 
-Use these curl commands in the terminal for various CREATE, SELECT, and UPDATE queries to the SQL database,.
+Use these curl commands in the terminal for various CREATE, SELECT, and UPDATE queries to the SQL database. For DELETE, do it through http://localhost:8080/delete.
 
 
 Please enjoy!!
