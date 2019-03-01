@@ -14,13 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 
-
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
-import java.util.Collections;
-import java.util.List;
-
-import java.util.ArrayList;
 
 @Controller
 @SessionAttributes("userInput")
