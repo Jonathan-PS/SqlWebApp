@@ -104,3 +104,9 @@ TODO after 28.02
 -- Connect to postgres on Heroku
 
 - write README.md
+
+
+private long id;
+private String tableName;
+private String attributeName;
+private String value;
