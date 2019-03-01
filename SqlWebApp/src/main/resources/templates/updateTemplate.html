@@ -4,6 +4,7 @@
     <title>Update an existing person</title>
 </head>
 <body>
+
 <div class="s010">
     <form th:action="@{/update}" th:object="${userUpdateInput}" method="POST">
         <div class="inner-form">
@@ -38,7 +39,19 @@
             </div>
         </div>
     </form>
+    <p>
+        To update a person entry in the database please give a integer value for the personID in the first input field <br>
+        The value you wish to change to in the next input field. <br>
+        Then pick the relevant attribute to change in the drop down menu. <br>
+        If you wish to change a persons date of birth the value must be passed on the form: <br>
+        YYYY-MM-DD
+
+    </p>
 </div>
+
+
+
+
 <script src="js/choices.js"></script>
 <script>
       const customSelects = document.querySelectorAll("select");
