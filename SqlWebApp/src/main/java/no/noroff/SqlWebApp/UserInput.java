@@ -1,8 +1,8 @@
 package no.noroff.SqlWebApp;
 
 public class UserInput {
-    String value;
-    String attribute;
+    private String value;
+    private String attribute;
 
     public void setValue(String v){value = v;}
     public void setAttribute(String v){attribute = v;}
