@@ -1,13 +1,13 @@
+# SqlWebApp
+_AUTHORS: Thomas Warren, Jonathan Stang, and Trude Hjelmeland_
 
 https://github.com/Jonathan-PS/SqlWebApp
 
 
-AUTHORS
-Thomas Warren
-Jonathan Stang
-Trude Hjelmeland
+Intellij Project using Spring Boot and Gradle
 
 After initialization and with active connection;
+
 *the database have a Frontpage found at http://localhost:8080/
 **here you find links to all the functionality for the database accessible online
 
