@@ -10,12 +10,8 @@ public class SqlWebApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SqlWebApplication.class, args);
-		System.out.println("-------BEFORE");
 		sqlConn = new TheSqlConnection();
 		sqlConn.connect();
 		sqlConn.initAllTables();
-		System.out.println("++++++++AFTER");
-
-
 	}
 }
