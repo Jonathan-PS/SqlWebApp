@@ -9,20 +9,23 @@
         <div class="inner-form">
             <div class="basic-update">
                 <div class="input-field">
-                    <input type="text" th:field="*{id}" placeholder="Please Enter a Unique ID Here" name="id" id="id" class="input-field"/>
+                    <input type="text" th:field="*{id}" placeholder="Please Enter a Unique PersonID Here" name="id" id="id" class="input-field"/>
+                </div>
+                <div class="input-field">
+                    <input type="text" th:field="*{value}" placeholder="Please Enter the Updated Value " name="value" id="value" class="input-field"/>
                 </div>
             </div>
-            <div class="TableName">
-                <span class="desc">Pick a Table</span>
+            <div class="attribute">
+                <span class="desc">Pick the Attribute you wish to Update </span>
                 <div class="row">
                     <div class="input-field">
                         <div class="input-select">
-                            <select th:field="*{TableName}" data-trigger="" name="id" id="TableName">
-                                <option value="">Tablename</option>
-                                <option th:value="Persons">Persons</option>
-                                <option th:value="PhoneNumbers">Phonenumbers</option>
-                                <option th:value="Emails">Phonenumber</option>
-                                <option th:value="Relationships">Relationships</option>
+                            <select th:field="*{attributeName}" data-trigger="" name="attributeName" id="attributeName">
+                                <option value="">Attribute</option>
+                                <option th:value="FirstName">First name</option>
+                                <option th:value="LastName">Last name</option>
+                                <option th:value="HomeAddress">Home Address</option>
+                                <option th:value="DateOfBirth">Date of birth</option>
                             </select>
                         </div>
                     </div>
